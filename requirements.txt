@@ -1,0 +1,5 @@
+firebase-admin
+geopandas
+streamlit
+plotly
+ipywidgets
