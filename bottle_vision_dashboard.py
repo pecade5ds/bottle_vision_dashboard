@@ -32,7 +32,7 @@ gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode
 gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_postcode_df['Average Disposable Income'], q=3, labels=['Low', 'Medium', 'High'])
 
 # Post codes
-gpd.read_file("./Data/shp/BARCELONA.geojson", engine='fiona')
+gpd.read_file("./Data/shp/BARCELONA.geojson")
 
 # gdf_post_code = gpd.read_file('./Data/shp/BARCELONA.geojson')
 
