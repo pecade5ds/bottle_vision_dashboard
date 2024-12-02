@@ -13,20 +13,6 @@ import requests
 
 # Título de la app
 st.title("Bottle Vision Dashboard")
-import pandas as pd
-import numpy as np
-import streamlit as st
-import geopandas as gpd
-import plotly.express as px
-from utils import *
-import json
-
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-import requests
-
-st.title("Bottle Vision Dashboard")
 
 # Firebase credentials
 db = firestore.Client.from_service_account_info(st.secrets["firebase"])
