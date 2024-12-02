@@ -50,14 +50,14 @@ gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_pos
 # post_code_data  = df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
 # gdf_post_code = gdf_post_code.merge(post_code_data, left_on="COD_POSTAL", right_on="post_code",how="left").drop(["ID_CP","post_code","ALTA_DB","ZIP_code","CODIGO_INE"] ,axis=1)
 
-# tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
+tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
 
-# if tabs == "Datos Generales":
-#     st.header("Datos Generales")
-#     st.write("Aquí se muestran los datos generales.")
+if tabs == "Datos Generales":
+    st.header("Datos Generales")
+    st.write("Aquí se muestran los datos generales.")
 
 
-# elif tabs == "Datos Geolocalizados":
-#     st.header("Datos Geolocalizados")
-#     st.write("Aquí se muestran los datos geolocalizados.")
+elif tabs == "Datos Geolocalizados":
+    st.header("Datos Geolocalizados")
+    st.write("Aquí se muestran los datos geolocalizados.")
     
