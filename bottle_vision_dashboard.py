@@ -51,6 +51,3 @@ elif tabs == "Datos Geolocalizados":
     st.header("Datos Geolocalizados")
     st.write("Aquí se muestran los datos geolocalizados.")
     
-    # Mapa de los datos geolocalizados
-    fig = px.scatter_geo(gdf, lat=gdf.geometry.y, lon=gdf.geometry.x, text=gdf['nombre'])
-    st.plotly_chart(fig)
