@@ -17,6 +17,9 @@ db = firestore.Client.from_service_account_info(st.secrets["firebase"])
 with open('./Data/config/query_config.json', 'r') as json_file:
     db_schema_name_str = json.load(json_file)["db_schema_name"]
 
+with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
+    competitor_danone_labels_dict = json.load(json_file)
+
 docs = db.collection(db_schema_name_str).get()
 
 df_docs = preprocess_docs(docs, competitor_danone_labels_dict)
