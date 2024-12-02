@@ -1,9 +1,43 @@
 import streamlit as st
 import geopandas as gpd
 import plotly.express as px
+from utils import *
 
-# Título del Dashboard
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+import requests
+
 st.title("Dashboard de Ejemplo")
+
+# Firebase credentials
+db = firestore.Client.from_service_account_info(st.secrets["firebase"])
+
+with open('./config/query_config.json', 'r') as json_file:
+    db_schema_name_str = json.load(json_file)["db_schema_name"]
+
+docs = db.collection(db_schema_name_str).get()
+
+df_docs = preprocess_docs(docs, competitor_danone_labels_dict)
+
+# gross salary
+gross_salary_postcode_df = pd.read_csv("./Data/renta_barcelona.csv", sep=";", decimal=",")
+gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode_df['Average Gross Income'], q=3, labels=['Low', 'Medium', 'High'])
+gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_postcode_df['Average Disposable Income'], q=3, labels=['Low', 'Medium', 'High'])
+
+# Podt codes
+gdf_post_code = gpd.read_file('./Data/shp/BARCELONA.geojson')
+
+gdf_post_code = gdf_post_code.merge(
+    gross_salary_postcode_df,
+    left_on=["COD_POSTAL"],
+    right_on=["ZIP_code"],
+    how="inner"
+)
+
+# merge post codes and detections
+post_code_data  = df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
+gdf_post_code = gdf_post_code.merge(post_code_data, left_on="COD_POSTAL", right_on="post_code",how="left").drop(["ID_CP","post_code","ALTA_DB","ZIP_code","CODIGO_INE"] ,axis=1)
 
 # Crear las pestañas
 tabs = st.sidebar.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
@@ -11,35 +45,11 @@ tabs = st.sidebar.radio("Selecciona una pestaña", ("Datos Generales", "Datos Ge
 if tabs == "Datos Generales":
     st.header("Datos Generales")
     st.write("Aquí se muestran los datos generales.")
-    # Puedes agregar tablas, gráficos u otros elementos aquí.
-    
-    # Ejemplo de un gráfico simple
-    import pandas as pd
-    df = pd.DataFrame({
-        'Categoría': ['A', 'B', 'C', 'D'],
-        'Valor': [10, 20, 30, 40]
-    })
-    st.write(df)
-    st.bar_chart(df.set_index('Categoría'))
+
 
 elif tabs == "Datos Geolocalizados":
     st.header("Datos Geolocalizados")
     st.write("Aquí se muestran los datos geolocalizados.")
-    
-    # Cargar un shapefile o datos geográficos
-    # Ejemplo: cargar un shapefile de ejemplo
-    # gdf = gpd.read_file("ruta/a/tu/archivo.shp")
-    
-    # Para este ejemplo, generamos algunos datos geográficos falsos
-    gdf = gpd.GeoDataFrame({
-        'id': [1, 2, 3],
-        'nombre': ['Ubicación 1', 'Ubicación 2', 'Ubicación 3'],
-        'geometry': [
-            gpd.GeoSeries.from_wkt('POINT (0 0)').iloc[0],
-            gpd.GeoSeries.from_wkt('POINT (1 1)').iloc[0],
-            gpd.GeoSeries.from_wkt('POINT (2 2)').iloc[0],
-        ]
-    })
     
     # Mapa de los datos geolocalizados
     fig = px.scatter_geo(gdf, lat=gdf.geometry.y, lon=gdf.geometry.x, text=gdf['nombre'])
