@@ -1,5 +1,7 @@
 firebase-admin
 geopandas
+fiona
+pyogrio
 streamlit
 matplotlib
 plotly
