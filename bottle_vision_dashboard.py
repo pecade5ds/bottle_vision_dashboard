@@ -32,7 +32,21 @@ gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode
 gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_postcode_df['Average Disposable Income'], q=3, labels=['Low', 'Medium', 'High'])
 
 # Post codes
-gpd.read_file("./Data/shp/BARCELONA.geojson")
+from io import StringIO
+
+# gpd.read_file("./Data/shp/BARCELONA.geojson")
+
+# Descargar el archivo GeoJSON desde el repositorio
+response = requests.get("https://github.com/pecade5ds/bottle_vision_dashboard/blob/main/Data/shp/BARCELONA.geojson")
+
+if response.status_code == 200:
+    # Leer el contenido del archivo
+    geojson_data = StringIO(response.text)
+    
+    # Cargar el GeoJSON usando geopandas
+    gdf = gpd.read_file(geojson_data)
+
+
 
 # gdf_post_code = gpd.read_file('./Data/shp/BARCELONA.geojson')
 
