@@ -13,7 +13,7 @@ st.title("Dashboard de Ejemplo")
 # Firebase credentials
 db = firestore.Client.from_service_account_info(st.secrets["firebase"])
 
-with open('./config/query_config.json', 'r') as json_file:
+with open('./Data/config/query_config.json', 'r') as json_file:
     db_schema_name_str = json.load(json_file)["db_schema_name"]
 
 docs = db.collection(db_schema_name_str).get()
