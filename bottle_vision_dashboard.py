@@ -15,20 +15,20 @@ import requests
 st.title("Bottle Vision Dashboard")
 
 # Firebase credentials
-db = firestore.Client.from_service_account_info(st.secrets["firebase"])
+# db = firestore.Client.from_service_account_info(st.secrets["firebase"])
 
-# Config load
-with open('./Data/config/query_config.json', 'r') as json_file:
-    db_schema_name_str = json.load(json_file)["db_schema_name"]
+# # Config load
+# with open('./Data/config/query_config.json', 'r') as json_file:
+#     db_schema_name_str = json.load(json_file)["db_schema_name"]
 
-# Competitor info load
-with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
-    competitor_danone_labels_dict = json.load(json_file)
+# # Competitor info load
+# with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
+#     competitor_danone_labels_dict = json.load(json_file)
 
-# Firebase conection
-docs = db.collection(db_schema_name_str).get()
+# # Firebase conection
+# docs = db.collection(db_schema_name_str).get()
 
-st.table(pd.json_normalize([elem.to_dict() for elem in docs], sep='_'))
+# st.table(pd.json_normalize([elem.to_dict() for elem in docs], sep='_'))
 
 # Preprocessing Firebase info
 # df_docs = preprocess_docs(docs, competitor_danone_labels_dict, usecols=["COD_POSTAL", "geometry"])
