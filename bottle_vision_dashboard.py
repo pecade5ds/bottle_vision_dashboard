@@ -31,22 +31,8 @@ gross_salary_postcode_df = pd.read_csv("./Data/renta_barcelona.csv", sep=";", de
 gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode_df['Average Gross Income'], q=3, labels=['Low', 'Medium', 'High'])
 gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_postcode_df['Average Disposable Income'], q=3, labels=['Low', 'Medium', 'High'])
 
-# Podt codes
-import os
-import streamlit as st
-
-# Define el path de tu carpeta
-directory_path = './Data/shp/'
-
-# Verifica si el path existe
-if os.path.exists(directory_path):
-    # Obtén la lista de archivos
-    files = os.listdir(directory_path)
-    st.write(f"Archivos en el directorio `{directory_path}`:")
-    st.write(files)
-else:
-    st.error(f"El directorio `{directory_path}` no existe.")
-
+# Post codes
+gpd.read_file("GeoJSON:./Data/shp/BARCELONA.geojson")
 
 # gdf_post_code = gpd.read_file('./Data/shp/BARCELONA.geojson')
 
