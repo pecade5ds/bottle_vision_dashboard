@@ -32,28 +32,33 @@ gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode
 gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_postcode_df['Average Disposable Income'], q=3, labels=['Low', 'Medium', 'High'])
 
 # Podt codes
-gdf_post_code = gpd.read_file('./Data/shp/BARCELONA.geojson')
+import os
 
-gdf_post_code = gdf_post_code.merge(
-    gross_salary_postcode_df,
-    left_on=["COD_POSTAL"],
-    right_on=["ZIP_code"],
-    how="inner"
-)
+file_path = './Data/shp/BARCELONA.geojson'
+st.write("Archivo existe:", os.path.exists(file_path))
 
-# merge post codes and detections
-post_code_data  = df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
-gdf_post_code = gdf_post_code.merge(post_code_data, left_on="COD_POSTAL", right_on="post_code",how="left").drop(["ID_CP","post_code","ALTA_DB","ZIP_code","CODIGO_INE"] ,axis=1)
+# gdf_post_code = gpd.read_file('./Data/shp/BARCELONA.geojson')
 
-# Crear las pestañas
-tabs = st.sidebar.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
+# gdf_post_code = gdf_post_code.merge(
+#     gross_salary_postcode_df,
+#     left_on=["COD_POSTAL"],
+#     right_on=["ZIP_code"],
+#     how="inner"
+# )
 
-if tabs == "Datos Generales":
-    st.header("Datos Generales")
-    st.write("Aquí se muestran los datos generales.")
+# # merge post codes and detections
+# post_code_data  = df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
+# gdf_post_code = gdf_post_code.merge(post_code_data, left_on="COD_POSTAL", right_on="post_code",how="left").drop(["ID_CP","post_code","ALTA_DB","ZIP_code","CODIGO_INE"] ,axis=1)
+
+# # Crear las pestañas
+# tabs = st.sidebar.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
+
+# if tabs == "Datos Generales":
+#     st.header("Datos Generales")
+#     st.write("Aquí se muestran los datos generales.")
 
 
-elif tabs == "Datos Geolocalizados":
-    st.header("Datos Geolocalizados")
-    st.write("Aquí se muestran los datos geolocalizados.")
+# elif tabs == "Datos Geolocalizados":
+#     st.header("Datos Geolocalizados")
+#     st.write("Aquí se muestran los datos geolocalizados.")
     
