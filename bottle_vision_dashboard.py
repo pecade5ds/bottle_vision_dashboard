@@ -28,13 +28,15 @@ with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
 # Firebase conection
 docs = db.collection(db_schema_name_str).get()
 
+st.table(pd.json_normalize([elem.to_dict() for elem in docs], sep='_'))
+
 # Preprocessing Firebase info
-df_docs = preprocess_docs(docs, competitor_danone_labels_dict, usecols=["COD_POSTAL", "geometry"])
+# df_docs = preprocess_docs(docs, competitor_danone_labels_dict, usecols=["COD_POSTAL", "geometry"])
 
 # External Info: gross salary
-gross_salary_postcode_df = pd.read_csv("./Data/renta_barcelona.csv", sep=";", decimal=",")
-gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode_df['Average Gross Income'], q=3, labels=['Low', 'Medium', 'High'])
-gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_postcode_df['Average Disposable Income'], q=3, labels=['Low', 'Medium', 'High'])
+# gross_salary_postcode_df = pd.read_csv("./Data/renta_barcelona.csv", sep=";", decimal=",")
+# gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode_df['Average Gross Income'], q=3, labels=['Low', 'Medium', 'High'])
+# gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_postcode_df['Average Disposable Income'], q=3, labels=['Low', 'Medium', 'High'])
 
 # Post codes geojson load
 # gdf_post_code = gpd.read_file('./Data/BARCELONA.geojson', usecols=["COD_POSTAL", "geometry"])
