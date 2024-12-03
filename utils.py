@@ -120,6 +120,13 @@ def plot_interactive(gdf_data_input, score_column):
         # Update the map layout
         fig.update_geos(fitbounds="locations", visible=False)
         fig.update_layout(title_text=f"Postcode presence: '{score_column}'", title_x=0.5)
+        fig.update_traces(
+            hovertemplate=(
+                'Danone Share: %{z:,.2f}<br>'  # Danone Share with two decimals
+                'Average Gross Income: %{customdata[0]:,.0f}<br>'  # Average Gross Income without decimals
+                # '%{location}<extra></extra>'  # Remove extra data in hover
+            )
+        )
     
         # Show the plot
         st.plotly_chart(fig)
