@@ -125,12 +125,15 @@ if tabs == "Main KPIs":
         # Create the choropleth map with hover data
         fig_map_danone = px.choropleth(
             gdf_post_code,
-            geojson=geojson_data,
+            geojson=gdf_post_code.geometry,
             locations=gdf_post_code.index,  # or a column with unique identifiers
             color='total_danone',
             color_continuous_scale='Blues',
             labels={'total_danone': 'Danone Share'},
-            hover_data={'total_danone': True, 'other_column': True},  # specify other columns to display on hover
+            hover_data={'total_danone': True, 
+                        'COD_POSTAL': True,
+                        'Average Gross Income': True,
+                        'danone_share': True},  
         )
         
         # Update layout to remove axis and add a title
