@@ -143,7 +143,7 @@ if tabs == "Main KPIs":
             geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
         )
 
-        figmap_danone.update_traces(
+        fig_map_danone.update_traces(
             hovertemplate=(
                 'Danone Share: %{z:,.2f}<br>'  # Danone Share with two decimals
                 'Average Gross Income: %{customdata[0]:,.0f}<br>'  # Average Gross Income without decimals
