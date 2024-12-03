@@ -101,7 +101,7 @@ if tabs == "Main KPIs":
         ax.grid(axis="x", linestyle="--", alpha=0.7)
         st.pyplot(correlations_fig)
         
-    with col2_w:
+    with col2_2:
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
         gdf_post_code.plot(
             column='total_danone',
