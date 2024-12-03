@@ -102,23 +102,47 @@ if tabs == "Main KPIs":
         st.pyplot(correlations_fig)
         
     with col2_2:
-        fig_map_danone, ax = plt.subplots(1, 1, figsize=(10, 6))
-        gdf_post_code.plot(
-            column='total_danone',
-            cmap='Blues', 
-            legend=True,  
-            legend_kwds={
-                'label': "Danone Share",
-                'orientation': "vertical"
-            },
-            ax=ax,
-            edgecolor='black'
+        # fig_map_danone, ax = plt.subplots(1, 1, figsize=(10, 6))
+        # gdf_post_code.plot(
+        #     column='total_danone',
+        #     cmap='Blues', 
+        #     legend=True,  
+        #     legend_kwds={
+        #         'label': "Danone Share",
+        #         'orientation': "vertical"
+        #     },
+        #     ax=ax,
+        #     edgecolor='black'
+        # )
+        
+        # ax.set_title("Danone Share Map", fontsize=14)
+        # ax.axis('off') 
+        
+        # st.pyplot(fig_map_danone)
+
+        # geojson_data = gdf_post_code.to_json()
+        
+        # Create the choropleth map with hover data
+        fig_map_danone = px.choropleth(
+            gdf_post_code,
+            geojson=geojson_data,
+            locations=gdf_post_code.index,  # or a column with unique identifiers
+            color='total_danone',
+            color_continuous_scale='Blues',
+            labels={'total_danone': 'Danone Share'},
+            hover_data={'total_danone': True, 'other_column': True},  # specify other columns to display on hover
         )
         
-        ax.set_title("Danone Share Map", fontsize=14)
-        ax.axis('off') 
+        # Update layout to remove axis and add a title
+        fig_map_danone.update_geos(fitbounds="locations")
+        fig_map_danone.update_layout(
+            title="Danone Share Map",
+            geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
+        )
         
-        st.pyplot(fig_map_danone)
+        # Display the map in Streamlit
+        st.plotly_chart(fig_map_danone)
+
         
     podium_df = pd.DataFrame({
     "Product": df_docs[variables_list].sum().index,
