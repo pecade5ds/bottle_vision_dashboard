@@ -35,6 +35,8 @@ st.title("Bottle Vision Dashboard")
 with open("./Data/df_docs.pkl", "rb") as file:
     df_docs = pickle.load(file)
 
+df_docs.rename({"post_code":"COD_POSTAL"},axis=1, inplace=True)
+
 # Competitor info load
 with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
     competitor_danone_labels_dict = json.load(json_file)
@@ -56,11 +58,10 @@ gdf_post_code_merged = gdf_post_code.merge(
 # merge post codes and detections
 variables_list = df_docs.columns.intersection(brand_list)
 
-post_code_data  = df_docs.drop(["store_type","store_name","shelf id"],axis=1).groupby("post_code").sum().reset_index()
+post_code_data  = df_docs.drop(["store_type","store_name","shelf id"],axis=1).groupby("COD_POSTAL").sum().reset_index()
 
 gdf_post_code_merged = gdf_post_code.merge(post_code_data, 
-                                    left_on="COD_POSTAL", 
-                                    right_on="post_code",
+                                    on="COD_POSTAL", 
                                     how="left")
 
 st.write(gdf_post_code_merged.columns)
