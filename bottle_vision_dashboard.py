@@ -99,7 +99,7 @@ if tabs == "Main KPIs":
     ax.grid(axis="x", linestyle="--", alpha=0.7)
     st.pyplot(correlations_fig)
     
-    st.write(gdf_post_code['Average Gross Income'].values)
+    st.write(gdf_post_code['Average Gross Income'].values[0],gdf_post_code['Average Gross Income'].values[0]+1)
     # Create the choropleth map with hover data
     fig_map_danone = px.choropleth(
         gdf_post_code,
