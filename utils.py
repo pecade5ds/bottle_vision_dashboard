@@ -102,21 +102,21 @@ def divergence_plot_matplotlib(df, codigo_postal):
     plt.tight_layout()
     st.pyplot(fig)  # Aquí usamos st.pyplot para mostrar el gráfico
 
-def plot_interactive(gdf_data_input, score_column):
-    # Ensure the GeoDataFrame has a proper CRS for Plotly
-    gdf_data_input = gdf_data_input.to_crs(epsg=4326)  # EPSG:4326 for lat/lon coordinates
+# def plot_interactive(gdf_data_input, score_column):
+#     # Ensure the GeoDataFrame has a proper CRS for Plotly
+#     gdf_data_input = gdf_data_input.to_crs(epsg=4326)  # EPSG:4326 for lat/lon coordinates
 
-    # Create Plotly figure
-    fig = px.choropleth(gdf_data_input,
-                        geojson=gdf_data_input.geometry.__geo_interface__,
-                        locations=gdf_data_input.index,
-                        color=score_column,
-                        color_continuous_scale="RdBu",  # A color scale with blue -> white -> red
-                        hover_name="COD_POSTAL",  # Modify with a valid column name from your dataset
-                        title=f"Brand presence by CP: '{score_column}'")
+#     # Create Plotly figure
+#     fig = px.choropleth(gdf_data_input,
+#                         geojson=gdf_data_input.geometry.__geo_interface__,
+#                         locations=gdf_data_input.index,
+#                         color=score_column,
+#                         color_continuous_scale="RdBu",  # A color scale with blue -> white -> red
+#                         hover_name="COD_POSTAL",  # Modify with a valid column name from your dataset
+#                         title=f"Brand presence by CP: '{score_column}'")
 
-    # Update layout for better visualization
-    fig.update_geos(fitbounds="locations", visible=False)
-    fig.update_layout(title_font_size=16, geo=dict(showcoastlines=True, coastlinecolor="Black"))
+#     # Update layout for better visualization
+#     fig.update_geos(fitbounds="locations", visible=False)
+#     fig.update_layout(title_font_size=16, geo=dict(showcoastlines=True, coastlinecolor="Black"))
     
-    return fig
+#     return fig
