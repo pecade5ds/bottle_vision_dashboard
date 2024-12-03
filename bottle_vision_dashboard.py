@@ -125,9 +125,9 @@ elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
 
     podium_df = pd.DataFrame({
-    "Product": df_docs[selected_columns].sum().index,
-    "Share": (df_docs[selected_columns].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
-    "Category": [competitor_danone_labels_dict[col] for col in selected_columns]
+    "Product": df_docs[variables_list].sum().index,
+    "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
+    "Category": [competitor_danone_labels_dict[col] for col in variables_list]
 })
 
     fig_comp_danone = px.bar(
