@@ -145,9 +145,28 @@ if tabs == "Main KPIs":
 
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
-
-
-
+   
+    codigos_postales = df_docs['post_code'].unique()
+    
+    df_in = pd.melt(df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["post_code"])],
+                    id_vars=['post_code'],
+                    var_name='brand',
+                    value_name='value')
+    df_in['Category'] = df_in['brand'].map(competitor_danone_labels_dict)
+    
+    df_in.loc[df_in.Category == "competitor", "value"] = df_in.loc[df_in.Category == "competitor", "value"] * -1
+    
+    # Streamlit widget for selecting postal code
+    post_code_select = st.selectbox('Post Code:', codigos_postales)
+    
+    # Filter the data based on the selected post code
+    filtered_df = df_in[df_in['post_code'] == post_code_select]
+    
+    # Call your plotting function with the filtered data
+    divergence_plot_matplotlib(filtered_df)
+    
+    
+    
 
 
     
