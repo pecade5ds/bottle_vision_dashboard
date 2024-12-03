@@ -102,21 +102,24 @@ def divergence_plot_matplotlib(df, codigo_postal):
     plt.tight_layout()
     st.pyplot(fig)  # Aquí usamos st.pyplot para mostrar el gráfico
 
-# def plot_interactive(gdf_data_input, score_column):
-#     # Ensure the GeoDataFrame has a proper CRS for Plotly
-#     gdf_data_input = gdf_data_input.to_crs(epsg=4326)  # EPSG:4326 for lat/lon coordinates
-
-#     # Create Plotly figure
-#     fig = px.choropleth(gdf_data_input,
-#                         geojson=gdf_data_input.geometry.__geo_interface__,
-#                         locations=gdf_data_input.index,
-#                         color=score_column,
-#                         color_continuous_scale="RdBu",  # A color scale with blue -> white -> red
-#                         hover_name="COD_POSTAL",  # Modify with a valid column name from your dataset
-#                         title=f"Brand presence by CP: '{score_column}'")
-
-#     # Update layout for better visualization
-#     fig.update_geos(fitbounds="locations", visible=False)
-#     fig.update_layout(title_font_size=16, geo=dict(showcoastlines=True, coastlinecolor="Black"))
+def plot_interactive(gdf_data_input, score_column):
+        # Create the map with Plotly Express
+        fig = px.choropleth(gdf_data_input, 
+                            geojson=gdf_data_input.geometry, # GeoJSON column (adjust according to your data)
+                            locations=gdf_data_input.index, # Index of your dataframe, adjust if needed
+                            color=score_column, 
+                            hover_name="COD_POSTAL",  # Adjust this to a column you want to show in hover info
+                            hover_data={
+                            'COD_POSTAL': True,  # Display the 'COD_POSTAL' column
+                            'Average Gross Income': True,  # Add more columns as needed
+                            'danone_share': True},
+                            color_continuous_scale=["white","darkblue"], 
+                            title=f"Geometrías coloreadas por '{score_column}'"
+        )
     
-#     return fig
+        # Update the map layout
+        fig.update_geos(fitbounds="locations", visible=False)
+        fig.update_layout(title_text=f"Geometrías coloreadas por '{score_column}'", title_x=0.5)
+    
+        # Show the plot
+        st.plotly_chart(fig)
