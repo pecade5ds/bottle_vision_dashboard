@@ -84,7 +84,7 @@ if tabs == "Main KPIs":
     with col2:
         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
 
-    correlations = {var: gdf_post_code["Average Gross Income"].corr(gdf_post_code[var]) for var in variables_list}
+    correlations = {var: gdf_post_code_merged ["Average Gross Income"].corr(gdf_post_code_merged [var]) for var in variables_list}
     
     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
     
