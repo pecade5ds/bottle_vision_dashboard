@@ -32,7 +32,7 @@ def preprocess_docs(docs, competitor_danone_labels_dict):
     # Ensure that the total bottles are at least as large as the predicted total
     df_docs['total_bottles'] = np.maximum(df_docs['predicted_total'], df_docs['Num_bottles'])
 
-    df_docs["danone_share"] = df_docs["total_danone"]/df_docs["total_bottles"]
+    df_docs["danone_share"] = round(df_docs["total_danone"]/df_docs["total_bottles"],2) *100
 
     # Drop unnecessary columns
     df_docs.drop(["predicted_total", "Num_bottles"], axis=1, inplace=True)
