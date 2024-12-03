@@ -175,7 +175,7 @@ elif tabs == "Granular KPIs":
                             'COD_POSTAL': True,  # Display the 'COD_POSTAL' column
                             'Average Gross Income': True,  # Add more columns as needed
                             'danone_share': True},
-                            color_continuous_scale="RdBu",  # Custom color map
+                            color_continuous_scale=["white","darkblue"], 
                             title=f"Geometrías coloreadas por '{score_column}'"
         )
     
