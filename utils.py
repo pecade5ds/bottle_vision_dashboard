@@ -123,7 +123,7 @@ def plot_interactive(gdf_data_input, score_column):
         fig.update_traces(
             hovertemplate=(
                 'Danone Share: %{z:,.2f}<br>'  # Danone Share with two decimals
-                'Average Gross Income: %{customdata[0]:,.0f}<br>'  # Average Gross Income without decimals
+                # 'Average Gross Income: %{customdata[0]:,.0f}<br>'  # Average Gross Income without decimals
                 # '%{location}<extra></extra>'  # Remove extra data in hover
             )
         )
