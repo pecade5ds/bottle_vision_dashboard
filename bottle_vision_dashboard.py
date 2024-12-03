@@ -65,9 +65,11 @@ gdf_post_code = gdf_post_code.merge(post_code_data,
                                     on="COD_POSTAL", 
                                     how="left")
 
-tabs = st.radio("Select Insights: ", ("Main KPIs", "Granular KPIs"))
+tabs = st.tabs(["Main KPIs", "Granular KPIs"])
+# tabs = st.radio("Select Insights: ", ("Main KPIs", "Granular KPIs"))
 
-if tabs == "Main KPIs":
+with tabs[0]:
+# if tabs == "Main KPIs":
     st.header("Main KPIs")
 
     # danone_mkt_share = df_docs["total_danone"].sum() / df_docs["total_bottles"].sum()
@@ -101,8 +103,9 @@ if tabs == "Main KPIs":
     "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
 
     plot_competitor_share(podium_df)
-    
-elif tabs == "Granular KPIs":
+
+with tabs[1]:
+# elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
    
     codigos_postales = df_docs['COD_POSTAL'].unique()
