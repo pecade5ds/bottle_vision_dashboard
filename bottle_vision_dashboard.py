@@ -76,51 +76,49 @@ if tabs == "Main KPIs":
     non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
     reminder_share = 1 - (float(danone_shelf_share) + float(non_danone_shelf_share))
 
-    st.write(float(danone_shelf_share), float(non_danone_shelf_share), float(danone_shelf_share)+ float(non_danone_shelf_share), 1 - float(danone_shelf_share) + float(non_danone_shelf_share))
+    col1_1, col1_2, col1_3 = st.columns(3)
     
-    # Divide el espacio en columnas
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
+    with col1_1:
         st.plotly_chart(plot_gauge_from_scalar(danone_shelf_share.round(2), "Danone Shelf Share"), use_container_width=True)
     
-    with col2:
+    with col1_2:
         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Competitor Shelf Share"), use_container_width=True)
 
-    with col3:
+    with col1_3:
         st.plotly_chart(plot_gauge_from_scalar(reminder_share, "Bottles Shelf Share"), use_container_width=True)
 
     correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
     
     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
     
-    correlations_fig, ax = plt.subplots(figsize=(8, 5))
-    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
-    ax.set_xlabel("Correlation Gross Income by Brand")
-    ax.set_title("Correlation Summary")
-    ax.grid(axis="x", linestyle="--", alpha=0.7)
-    st.pyplot(correlations_fig)
-
+    col2_1, col2_2 = st.columns(2)
     
-    # Tu código de Matplotlib
-    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-    gdf_post_code.plot(
-        column='total_danone',  # Variable para el gradiente
-        cmap='Blues',  # Paleta de colores
-        legend=True,  # Mostrar la leyenda
-        legend_kwds={
-            'label': "Danone Share",
-            'orientation': "vertical"
-        },
-        ax=ax,
-        edgecolor='black'  # Borde de los polígonos
-    )
-    
-    ax.set_title("Danone Share Map", fontsize=14)
-    ax.axis('off')  # Ocultar los ejes
-    
-    # Mostrar el gráfico en Streamlit
-    st.pyplot(fig)
+    with col2_1:
+        correlations_fig, ax = plt.subplots(figsize=(8, 5))
+        ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
+        ax.set_xlabel("Correlation Gross Income by Brand")
+        ax.set_title("Correlation Summary")
+        ax.grid(axis="x", linestyle="--", alpha=0.7)
+        st.pyplot(correlations_fig)
+        
+    with col2_w:
+        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        gdf_post_code.plot(
+            column='total_danone',
+            cmap='Blues', 
+            legend=True,  
+            legend_kwds={
+                'label': "Danone Share",
+                'orientation': "vertical"
+            },
+            ax=ax,
+            edgecolor='black'
+        )
+        
+        ax.set_title("Danone Share Map", fontsize=14)
+        ax.axis('off') 
+        
+        st.pyplot(fig)
 
 
 elif tabs == "Granular KPIs":
