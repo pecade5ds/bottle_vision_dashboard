@@ -76,12 +76,18 @@ if tabs == "Main KPIs":
     non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
     
     # Divide el espacio en columnas
-    col1, col2 = st.columns(2)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.plotly_chart(plot_gauge_from_scalar(danone_mkt_share.round(2), "Danone MKT Share"), use_container_width=True)
     
     with col2:
+        st.plotly_chart(plot_gauge_from_scalar(danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
+
+    with col3:
+        st.plotly_chart(plot_gauge_from_scalar(non_danone_mkt_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
+
+    with col4:
         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
 
     correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
