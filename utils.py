@@ -141,7 +141,7 @@ def plot_correlation(correlations_df):
     fig.update_layout(
         title="Correlation Summary",
         xaxis_title="Correlation Gross Income by Brand",
-        yaxis_title="Variable",
+        yaxis_title="Brands",
         template="plotly_white",  # Estilo visual limpio
         xaxis=dict(showgrid=True, gridcolor='lightgray'),
         yaxis=dict(showgrid=False)
