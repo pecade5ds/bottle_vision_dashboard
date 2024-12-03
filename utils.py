@@ -75,7 +75,7 @@ def plot_gauge_from_scalar(score, score_column):
     return fig
 
 def divergence_plot_matplotlib(df, codigo_postal):
-    df_filtered = df[df['post_code'] == codigo_postal]
+    df_filtered = df[df['COD_POSTAL'] == codigo_postal]
 
     danone = df_filtered[df_filtered['Category'] == 'Danone']
     competidor = df_filtered[df_filtered['Category'] == 'competitor']
