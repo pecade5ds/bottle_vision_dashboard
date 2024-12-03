@@ -88,68 +88,18 @@ if tabs == "Main KPIs":
         st.plotly_chart(plot_gauge_from_scalar(reminder_share, "Bottles Shelf Share"), use_container_width=True)
 
     correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
+    correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])   
+    plot_correlation(correlations_df)
     
-    correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
-    
-    
-    correlations_fig, ax = plt.subplots(figsize=(8, 5))
-    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
-    ax.set_xlabel("Correlation Gross Income by Brand")
-    ax.set_title("Correlation Summary")
-    ax.grid(axis="x", linestyle="--", alpha=0.7)
-    st.pyplot(correlations_fig)
-    
-    st.write(gdf_post_code['Average Gross Income'].values[0],gdf_post_code['Average Gross Income'].values[0]+1)
     # Create the choropleth map with hover data
-    fig_map_danone = px.choropleth(
-        gdf_post_code,
-        geojson=gdf_post_code.geometry,
-        locations=gdf_post_code.index,  # or a column with unique identifiers
-        color='total_danone',
-        color_continuous_scale='Blues',
-        labels={'total_danone': 'Danone Share'},
-        hover_data={'total_danone': True, 
-                    'COD_POSTAL': True,
-                    'Average Gross Income': True,
-                    'danone_share': True},  
-    )
-    
-    # Update layout to remove axis and add a title
-    fig_map_danone.update_geos(fitbounds="locations")
-    fig_map_danone.update_layout(
-        title="Danone Share Map",
-        geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
-    )
+    plot_danone_share_map(gdf_post_code):
 
-    fig_map_danone.update_traces(
-        hovertemplate=(
-            'Danone Share: %{z:,.2f}<br>'  # Danone Share with two decimals
-        )
-    )
-    st.plotly_chart(fig_map_danone)
-
-    
     podium_df = pd.DataFrame({
     "Product": df_docs[variables_list].sum().index,
     "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
     "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
 
-    fig_comp_danone = px.bar(
-        podium_df,
-        x="Product",
-        y="Share",
-        color="Category",
-        color_discrete_map={
-            "Danone": "blue",
-            "competitor": "red"
-        },
-        title="Top and Bottom Products (Danone vs Competitors)",
-        text="Share"
-    )
-    
-    fig_comp_danone.update_traces(textposition="outside")
-    fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
-    st.plotly_chart(fig_comp_danone)
+    plot_competitor_share(podium_df):    
     
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
