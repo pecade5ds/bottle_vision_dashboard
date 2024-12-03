@@ -161,9 +161,6 @@ def plot_danone_share_map(gdf_post_code):
     # Display the map in Streamlit
     st.plotly_chart(fig_map_danone)
 
-import plotly.express as px
-import streamlit as st
-
 def plot_competitor_share(podium_df):
     # Crear el gráfico de barras
     fig = px.bar(
