@@ -142,7 +142,6 @@ if tabs == "Main KPIs":
     fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
     st.plotly_chart(fig_comp_danone)
     
-
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
    
@@ -155,7 +154,11 @@ elif tabs == "Granular KPIs":
     df_in['Category'] = df_in['brand'].map(competitor_danone_labels_dict)
     
     df_in.loc[df_in.Category == "competitor", "value"] = df_in.loc[df_in.Category == "competitor", "value"] * -1
+
+    score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
     
+    fig = plot_interactive(gdf_post_code, score_column)
+    st.pyplot(fig)
     # Streamlit widget for selecting postal code
     post_code_select = st.selectbox('Post Code:', codigos_postales)
     
