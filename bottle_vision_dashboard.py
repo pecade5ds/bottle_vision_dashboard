@@ -93,7 +93,7 @@ with tabs[0]:
         st.plotly_chart(plot_gauge_from_scalar(reminder_share, "Bottles Shelf Share"), use_container_width=True)
     
     correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
-    correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])   
+    correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"]).round(2)
     podium_df = pd.DataFrame({
         "Product": df_docs[variables_list].sum().index,
         "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
