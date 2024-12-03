@@ -22,9 +22,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# App Title
-st.title("Bottle Vision Dashboard")
-
 # Firebase credentials
 # db = firestore.Client.from_service_account_info(st.secrets["firebase"])
 
