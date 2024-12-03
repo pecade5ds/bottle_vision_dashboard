@@ -124,13 +124,27 @@ def plot_interactive(gdf_data_input, score_column):
     st.plotly_chart(fig)
 
 def plot_correlation(correlations_df):
-    correlations_fig, ax = plt.subplots(figsize=(8, 5))
-    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
-    ax.set_xlabel("Correlation Gross Income by Brand")
-    ax.set_title("Correlation Summary")
-    ax.grid(axis="x", linestyle="--", alpha=0.7)
-    st.pyplot(correlations_fig)
+    # Crear la figura usando Plotly
+    fig = go.Figure(go.Bar(
+        x=correlations_df["Correlation"], 
+        y=correlations_df["Variable"], 
+        orientation='h',  # Gráfico de barras horizontales
+        marker=dict(color='skyblue')  # Color de las barras
+    ))
 
+    # Agregar título y etiquetas
+    fig.update_layout(
+        title="Correlation Summary",
+        xaxis_title="Correlation Gross Income by Brand",
+        yaxis_title="Variable",
+        template="plotly_white",  # Estilo visual limpio
+        xaxis=dict(showgrid=True, gridcolor='lightgray'),
+        yaxis=dict(showgrid=False)
+    )
+    
+    # Mostrar el gráfico en Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+    
 def plot_danone_share_map(gdf_post_code):
     # Create the choropleth map
     fig_map_danone = px.choropleth(
