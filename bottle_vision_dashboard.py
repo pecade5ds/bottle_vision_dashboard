@@ -49,8 +49,7 @@ gdf_post_code = gpd.read_file('./Data/BARCELONA.geojson', columns=["COD_POSTAL",
 
 gdf_post_code_merged = gdf_post_code.merge(
     gross_salary_postcode_df,
-    left_on=["COD_POSTAL"],
-    right_on=["ZIP_code"],
+    on=["COD_POSTAL"],
     how="inner"
 )
 
