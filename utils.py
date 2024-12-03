@@ -103,11 +103,10 @@ def divergence_plot_matplotlib(df, codigo_postal):
     st.pyplot(fig)  # Aquí usamos st.pyplot para mostrar el gráfico
 
 def plot_interactive(gdf_data_input, score_column):
-
     cmap = LinearSegmentedColormap.from_list("custom_cmap", ["blue", "white", "red"])
 
     fig, ax = plt.subplots(1, 1, figsize=(10, 8))
     gdf_data_input.plot(column=score_column, cmap=cmap, legend=True, ax=ax, edgecolor="black")
     ax.set_title(f"CP by '{score_column}'", fontsize=16)
     ax.axis("off")
-    plt.show()
+    return fig
