@@ -85,7 +85,7 @@ if tabs == "Main KPIs":
         st.plotly_chart(plot_gauge_from_scalar(danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
 
     with col3:
-        st.plotly_chart(plot_gauge_from_scalar(non_danone_mkt_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
+        st.plotly_chart(plot_gauge_from_scalar(non_danone_mkt_share.round(2), "non_danone_mkt_share"), use_container_width=True)
 
     with col4:
         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
@@ -101,6 +101,30 @@ if tabs == "Main KPIs":
     ax.grid(axis="x", linestyle="--", alpha=0.7)
     st.pyplot(correlations_fig)
 
+    
+    # Tu código de Matplotlib
+    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+    gdf_post_code.plot(
+        column='total_danone',  # Variable para el gradiente
+        cmap='Blues',  # Paleta de colores
+        legend=True,  # Mostrar la leyenda
+        legend_kwds={
+            'label': "Danone Share",
+            'orientation': "vertical"
+        },
+        ax=ax,
+        edgecolor='black'  # Borde de los polígonos
+    )
+    
+    ax.set_title("Danone Share Map", fontsize=14)
+    ax.axis('off')  # Ocultar los ejes
+    
+    # Mostrar el gráfico en Streamlit
+    st.pyplot(fig)
+
+
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
+    
+
     
