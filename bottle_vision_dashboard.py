@@ -15,14 +15,6 @@ import requests
 # Config
 brand_list = ['fontvella', 'viladrau', 'cabreiroa', 'vichy', 'lanjaron', 'bezoya', 'veri', 'aquabona', 'solan', 'evian', 'ribes', 'boix', 'aquarel', 'perrier', 'fonter', 'aquafina', 'fontagudes', 'aquadeus', 'casera', 'santaniol', 'cocacola']
 
-st.markdown("""
-    <style>
-    .css-1lsm6zv {
-        font-size: 24px; /* Cambia el tamaño de la fuente */
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 # App Title
 st.title("Bottle Vision Dashboard")
 
