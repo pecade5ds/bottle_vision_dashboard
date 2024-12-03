@@ -22,6 +22,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown("---")
+
 # Firebase credentials
 # db = firestore.Client.from_service_account_info(st.secrets["firebase"])
 
