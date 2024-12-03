@@ -91,67 +91,45 @@ if tabs == "Main KPIs":
     
     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
     
-    col2_1, col2_2 = st.columns(2)
     
-    with col2_1:
-        correlations_fig, ax = plt.subplots(figsize=(8, 5))
-        ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
-        ax.set_xlabel("Correlation Gross Income by Brand")
-        ax.set_title("Correlation Summary")
-        ax.grid(axis="x", linestyle="--", alpha=0.7)
-        st.pyplot(correlations_fig)
-        
-    with col2_2:
-        # fig_map_danone, ax = plt.subplots(1, 1, figsize=(10, 6))
-        # gdf_post_code.plot(
-        #     column='total_danone',
-        #     cmap='Blues', 
-        #     legend=True,  
-        #     legend_kwds={
-        #         'label': "Danone Share",
-        #         'orientation': "vertical"
-        #     },
-        #     ax=ax,
-        #     edgecolor='black'
-        # )
-        
-        # ax.set_title("Danone Share Map", fontsize=14)
-        # ax.axis('off') 
-        
-        # st.pyplot(fig_map_danone)
+    correlations_fig, ax = plt.subplots(figsize=(8, 5))
+    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
+    ax.set_xlabel("Correlation Gross Income by Brand")
+    ax.set_title("Correlation Summary")
+    ax.grid(axis="x", linestyle="--", alpha=0.7)
+    st.pyplot(correlations_fig)
+    
 
-        # geojson_data = gdf_post_code.to_json()
-        
-        # Create the choropleth map with hover data
-        fig_map_danone = px.choropleth(
-            gdf_post_code,
-            geojson=gdf_post_code.geometry,
-            locations=gdf_post_code.index,  # or a column with unique identifiers
-            color='total_danone',
-            color_continuous_scale='Blues',
-            labels={'total_danone': 'Danone Share'},
-            hover_data={'total_danone': True, 
-                        'COD_POSTAL': True,
-                        'Average Gross Income': True,
-                        'danone_share': True},  
-        )
-        
-        # Update layout to remove axis and add a title
-        fig_map_danone.update_geos(fitbounds="locations")
-        fig_map_danone.update_layout(
-            title="Danone Share Map",
-            geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
-        )
+    # Create the choropleth map with hover data
+    fig_map_danone = px.choropleth(
+        gdf_post_code,
+        geojson=gdf_post_code.geometry,
+        locations=gdf_post_code.index,  # or a column with unique identifiers
+        color='total_danone',
+        color_continuous_scale='Blues',
+        labels={'total_danone': 'Danone Share'},
+        hover_data={'total_danone': True, 
+                    'COD_POSTAL': True,
+                    'Average Gross Income': True,
+                    'danone_share': True},  
+    )
+    
+    # Update layout to remove axis and add a title
+    fig_map_danone.update_geos(fitbounds="locations")
+    fig_map_danone.update_layout(
+        title="Danone Share Map",
+        geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
+    )
 
-        fig_map_danone.update_traces(
-            hovertemplate=(
-                'Danone Share: %{z:,.2f}<br>'  # Danone Share with two decimals
-                'Average Gross Income: %{customdata[0]:,.0f}<br>'  # Average Gross Income without decimals
-            )
+    fig_map_danone.update_traces(
+        hovertemplate=(
+            'Danone Share: %{z:,.2f}<br>'  # Danone Share with two decimals
+            'Average Gross Income: %{customdata[0]:,.0f}<br>'  # Average Gross Income without decimals
         )
-        st.plotly_chart(fig_map_danone)
+    )
+    st.plotly_chart(fig_map_danone)
 
-        
+    
     podium_df = pd.DataFrame({
     "Product": df_docs[variables_list].sum().index,
     "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
