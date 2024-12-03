@@ -18,7 +18,7 @@ brand_list = ['fontvella', 'viladrau', 'cabreiroa', 'vichy', 'lanjaron', 'bezoya
 st.markdown("""
     <style>
     .css-1lsm6zv {
-        font-size: 20px; /* Cambia el tamaño de la fuente */
+        font-size: 24px; /* Cambia el tamaño de la fuente */
     }
     </style>
 """, unsafe_allow_html=True)
