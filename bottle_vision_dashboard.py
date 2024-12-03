@@ -36,7 +36,7 @@ with open("./Data/df_docs.pkl", "rb") as file:
     df_docs = pickle.load(file)
 
 df_docs.rename({"post_code":"COD_POSTAL"},axis=1, inplace=True)
-df_docs["total_non_danone"] = round(df_docs["danone_share"],2)
+df_docs["danone_share"] = round(df_docs["danone_share"],2)
 
 # Competitor info load
 with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
