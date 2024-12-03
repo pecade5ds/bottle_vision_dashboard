@@ -155,10 +155,6 @@ elif tabs == "Granular KPIs":
     
     df_in.loc[df_in.Category == "competitor", "value"] = df_in.loc[df_in.Category == "competitor", "value"] * -1
 
-    score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
-    
-    fig = plot_interactive(gdf_post_code, score_column)
-    st.pyplot(fig)
     # Streamlit widget for selecting postal code
     post_code_select = st.selectbox('Post Code:', codigos_postales)
     
@@ -167,6 +163,10 @@ elif tabs == "Granular KPIs":
     
     # Call your plotting function with the filtered data
     divergence_plot_matplotlib(filtered_df, post_code_select)
+
+    score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
+    fig = plot_interactive(gdf_post_code, score_column)
+    st.pyplot(fig)
     
     
     
