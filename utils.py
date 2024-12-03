@@ -72,6 +72,11 @@ def plot_gauge_from_scalar(score, score_column):
             }
         }
     ))
+    
+    fig.update_layout(
+        margin={'t': 0, 'b': 0, 'l': 0, 'r': 0},  # Remove margins
+        height=250  # Adjust the height to your desired size
+    )
 
     return fig
 
