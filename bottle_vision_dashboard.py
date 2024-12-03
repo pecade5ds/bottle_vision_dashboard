@@ -52,7 +52,7 @@ gdf_post_code = gdf_post_code.merge(
     left_on=["COD_POSTAL"],
     right_on=["ZIP_code"],
     how="inner"
-)
+).drop("ZIP_code", axis=1)
 
 # merge post codes and detections
 variables_list = df_docs.columns.intersection(brand_list)
