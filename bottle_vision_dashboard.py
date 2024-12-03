@@ -15,6 +15,13 @@ import requests
 # Config
 brand_list = ['fontvella', 'viladrau', 'cabreiroa', 'vichy', 'lanjaron', 'bezoya', 'veri', 'aquabona', 'solan', 'evian', 'ribes', 'boix', 'aquarel', 'perrier', 'fonter', 'aquafina', 'fontagudes', 'aquadeus', 'casera', 'santaniol', 'cocacola']
 
+st.markdown(
+    """
+    <h1 style="text-align: center;">Bottle Vision Dashboard</h1>
+    """, 
+    unsafe_allow_html=True
+)
+
 # App Title
 st.title("Bottle Vision Dashboard")
 
