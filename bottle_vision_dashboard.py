@@ -148,8 +148,8 @@ elif tabs == "Granular KPIs":
    
     codigos_postales = df_docs['post_code'].unique()
     
-    df_in = pd.melt(df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["post_code"])],
-                    id_vars=['post_code'],
+    df_in = pd.melt(df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["COD_POSTAL"])],
+                    id_vars=['COD_POSTAL'],
                     var_name='brand',
                     value_name='value')
     df_in['Category'] = df_in['brand'].map(competitor_danone_labels_dict)
