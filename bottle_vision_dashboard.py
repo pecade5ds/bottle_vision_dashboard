@@ -90,17 +90,23 @@ with tabs[0]:
 
     correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])   
-    plot_correlation(correlations_df)
-    
-    # Create the choropleth map with hover data
-    plot_danone_share_map(gdf_post_code)
-
     podium_df = pd.DataFrame({
-    "Product": df_docs[variables_list].sum().index,
-    "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
-    "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
+        "Product": df_docs[variables_list].sum().index,
+        "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
+        "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
 
-    plot_competitor_share(podium_df)
+
+    col11, col22 = st.columns([1, 1])  # Dos columnas verticales (de igual tamaño)
+    col33 = st.columns(1)  # Una columna horizontal
+    
+    # Primer gráfico en la primera columna (col1)
+    with col11:
+        plot_correlation(correlations_df)
+    with col22:
+        # Create the choropleth map with hover data
+        plot_danone_share_map(gdf_post_code)
+    with col33:
+        plot_competitor_share(podium_df)
 
 with tabs[1]:
    
