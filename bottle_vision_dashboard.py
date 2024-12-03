@@ -102,7 +102,7 @@ if tabs == "Main KPIs":
         st.pyplot(correlations_fig)
         
     with col2_2:
-        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        fig_map_danone, ax = plt.subplots(1, 1, figsize=(10, 6))
         gdf_post_code.plot(
             column='total_danone',
             cmap='Blues', 
@@ -118,11 +118,34 @@ if tabs == "Main KPIs":
         ax.set_title("Danone Share Map", fontsize=14)
         ax.axis('off') 
         
-        st.pyplot(fig)
+        st.pyplot(fig_map_danone)
 
 
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
-    
 
+    podium_df = pd.DataFrame({
+    "Product": df_docs[selected_columns].sum().index,
+    "Share": (df_docs[selected_columns].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
+    "Category": [competitor_danone_labels_dict[col] for col in selected_columns]
+})
+
+    fig_comp_danone = px.bar(
+        podium_df,
+        x="Product",
+        y="Share",
+        color="Category",
+        color_discrete_map={
+        "Danone": "blue",
+        "competitor": "red"
+    },
+        title="Top and Bottom Products (Danone vs Competitors)",
+        text="Share"
+    )
     
+    fig_comp_danone.update_traces(textposition="outside")
+    fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
+    
+    st.pyplot(fig_comp_danone)
+    
+        
