@@ -164,13 +164,7 @@ elif tabs == "Granular KPIs":
     # Call your plotting function with the filtered data
     divergence_plot_matplotlib(filtered_df, post_code_select)
 
-    score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
-    fig = plot_interactive(gdf_post_code, score_column)
-    st.pyplot(fig)
+    # score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
+    # fig = plot_interactive(gdf_post_code, score_column)
+    # st.pyplot(fig)
     
-    
-    
-
-
-    
-        
