@@ -140,6 +140,7 @@ if tabs == "Main KPIs":
         
         fig_comp_danone.update_traces(textposition="outside")
         fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
+        st.plotly_chart(fig_comp_danone)
         
 
 elif tabs == "Granular KPIs":
@@ -147,7 +148,7 @@ elif tabs == "Granular KPIs":
 
 
 
-st.plotly_chart(fig_comp_danone)
+
 
     
         
