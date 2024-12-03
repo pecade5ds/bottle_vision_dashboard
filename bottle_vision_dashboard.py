@@ -147,10 +147,8 @@ if tabs == "Main KPIs":
             hovertemplate=(
                 'Danone Share: %{z:,.2f}<br>'  # Danone Share with two decimals
                 'Average Gross Income: %{customdata[0]:,.0f}<br>'  # Average Gross Income without decimals
-                # '%{location}<extra></extra>'  # Remove extra data in hover
             )
         )
-        # Display the map in Streamlit
         st.plotly_chart(fig_map_danone)
 
         
