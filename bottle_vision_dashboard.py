@@ -185,7 +185,7 @@ elif tabs == "Granular KPIs":
     # Streamlit widget for interaction
     score_column = st.selectbox(
         'Select the score column:',
-        options=variables_list
+        options=variables_list,
         index=0
     )
     
