@@ -130,22 +130,23 @@ elif tabs == "Granular KPIs":
     "Category": [competitor_danone_labels_dict[col] for col in variables_list]
 })
 
-    fig_comp_danone = px.bar(
-        podium_df,
-        x="Product",
-        y="Share",
-        color="Category",
-        color_discrete_map={
+fig_comp_danone = px.bar(
+    podium_df,
+    x="Product",
+    y="Share",
+    color="Category",
+    color_discrete_map={
         "Danone": "blue",
         "competitor": "red"
     },
-        title="Top and Bottom Products (Danone vs Competitors)",
-        text="Share"
-    )
-    
-    fig_comp_danone.update_traces(textposition="outside")
-    fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
-    
-    st.pyplot(fig_comp_danone)
+    title="Top and Bottom Products (Danone vs Competitors)",
+    text="Share"
+)
+
+fig_comp_danone.update_traces(textposition="outside")
+fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
+
+st.plotly_chart(fig_comp_danone)
+
     
         
