@@ -103,8 +103,8 @@ with tabs[0]:
         plot_correlation(correlations_df)
     with col22:
         plot_competitor_share(podium_df)
-    with col33:
-        plot_danone_share_map(gdf_post_code)
+    
+    plot_danone_share_map(gdf_post_code)
         
 
 with tabs[1]:
