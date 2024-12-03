@@ -114,7 +114,7 @@ def plot_interactive(gdf_data_input, score_column):
                             'Average Gross Income': True,  # Add more columns as needed
                             'danone_share': True},
                             color_continuous_scale=["white","darkblue"], 
-                            title=f"Geometrías coloreadas por '{score_column}'"
+                            title=f"Post code presence: '{score_column}'"
         )
     
         # Update the map layout
