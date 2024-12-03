@@ -87,7 +87,7 @@ if tabs == "Main KPIs":
         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Competitor Shelf Share"), use_container_width=True)
 
     with col3:
-        st.plotly_chart(plot_gauge_from_scalar(danone_shelf_share + non_danone_shelf_share, "Bottles Shelf Share"), use_container_width=True)
+        st.plotly_chart(plot_gauge_from_scalar(1 - danone_shelf_share + non_danone_shelf_share, "Bottles Shelf Share"), use_container_width=True)
 
     correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
     
