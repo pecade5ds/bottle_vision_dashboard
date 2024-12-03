@@ -66,6 +66,8 @@ gdf_post_code = gdf_post_code.merge(post_code_data,
 
 tabs = st.radio("Selecciona una pestaña", ("Main KPIs", "Granular KPIs"))
 
+st.write(df_docs.columns)
+
 if tabs == "Main KPIs":
     st.header("Main KPIs")
 
