@@ -124,3 +124,11 @@ def plot_interactive(gdf_data_input, score_column):
     
         # Show the plot
         st.plotly_chart(fig)
+
+def plot_correlation(correlations_df):
+    correlations_fig, ax = plt.subplots(figsize=(8, 5))
+    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
+    ax.set_xlabel("Correlation Gross Income by Brand")
+    ax.set_title("Correlation Summary")
+    ax.grid(axis="x", linestyle="--", alpha=0.7)
+    st.pyplot(correlations_fig)
