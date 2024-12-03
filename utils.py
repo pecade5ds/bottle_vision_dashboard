@@ -75,7 +75,7 @@ def plot_gauge_from_scalar(score, score_column):
     return fig
 
 def divergence_plot_matplotlib(df, codigo_postal):
-    df_filtered = df[df['COD_POSTAL'] == codigo_postal]
+    df_filtered = df[df['post_code'] == codigo_postal]
 
     danone = df_filtered[df_filtered['Category'] == 'Danone']
     competidor = df_filtered[df_filtered['Category'] == 'competitor']
@@ -91,9 +91,9 @@ def divergence_plot_matplotlib(df, codigo_postal):
     ax.axvline(0, color='black', linewidth=0.8, linestyle='--')  # Línea vertical en 0
     ax.legend(loc='upper right', fontsize=12)
 
-    # Mostrar el gráfico
+    # Mostrar el gráfico en Streamlit
     plt.tight_layout()
-    plt.show()
+    st.pyplot(fig)  # Aquí usamos st.pyplot para mostrar el gráfico
 
 def plot_interactive(gdf_data_input, score_column):
 
