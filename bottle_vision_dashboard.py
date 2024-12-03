@@ -36,6 +36,7 @@ with open("./Data/df_docs.pkl", "rb") as file:
     df_docs = pickle.load(file)
 
 df_docs.rename({"post_code":"COD_POSTAL"},axis=1, inplace=True)
+df_docs["total_non_danone"] = round(df_docs["danone_share"],2)
 
 # Competitor info load
 with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
@@ -72,7 +73,6 @@ if tabs == "Main KPIs":
     # danone_mkt_share = df_docs["total_danone"].sum() / df_docs["total_bottles"].sum()
     # non_danone_mkt_share = df_docs['total_non_danone'].sum() / df_docs["total_bottles"].sum()
     
-    df_docs["total_non_danone"] = round(df_docs["danone_share"],2)
     danone_shelf_share = (df_docs["total_danone"] / df_docs["total_bottles"]).mean()
     non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
     reminder_share = 1 - (float(danone_shelf_share) + float(non_danone_shelf_share))
