@@ -57,17 +57,12 @@ gdf_post_code_merged = gdf_post_code.merge(
 # merge post codes and detections
 variables_list = df_docs.columns.intersection(brand_list)
 
-st.write(gdf_post_code.columns)
-st.write(df_docs.columns)
-
 post_code_data  = df_docs.drop(["store_type","store_name","shelf id"],axis=1).groupby("post_code").sum().reset_index()
 
-#  KeyError: "['ID_CP', 'ALTA_DB', 'CODIGO_INE'] not found in axis
-
-# gdf_post_code = gdf_post_code.merge(post_code_data, 
-#                                     left_on="COD_POSTAL", 
-#                                     right_on="post_code",
-#                                     how="left").drop(["post_code","ZIP_code"] ,axis=1)
+gdf_post_code_merged = gdf_post_code.merge(post_code_data, 
+                                    left_on="COD_POSTAL", 
+                                    right_on="post_code",
+                                    how="left").drop(["post_code","ZIP_code"] ,axis=1)
 
 # tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
 
