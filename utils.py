@@ -118,7 +118,7 @@ def plot_interactive(gdf_data_input, score_column):
 
     # Update the map layout
     fig.update_geos(fitbounds="locations", visible=False)
-    fig.update_layout(title_text=f"Postcode presence: '{score_column}'", title_x=0.5))
+    fig.update_layout(title_text=f"Postcode presence: '{score_column}'", title_x=0.5)
 
     # Show the plot
     st.plotly_chart(fig)
