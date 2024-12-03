@@ -12,6 +12,9 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import requests
 
+# Config
+brand_list = ['fontvella', 'viladrau', 'cabreiroa', 'vichy', 'lanjaron', 'bezoya', 'veri', 'aquabona', 'solan', 'evian', 'ribes', 'boix', 'aquarel', 'perrier', 'fonter', 'aquafina', 'fontagudes', 'aquadeus', 'casera', 'santaniol', 'cocacola']
+
 # App Title
 st.title("Bottle Vision Dashboard")
 
@@ -53,8 +56,11 @@ gdf_post_code = gdf_post_code.merge(
 )
 
 # merge post codes and detections
-post_code_data  = df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
-gdf_post_code = gdf_post_code.merge(post_code_data, left_on="COD_POSTAL", right_on="post_code",how="left").drop(["ID_CP","post_code","ALTA_DB","ZIP_code","CODIGO_INE"] ,axis=1)
+post_code_data  = df_docs[df_docs.columns.intersection(brand_list + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
+gdf_post_code = gdf_post_code.merge(post_code_data, 
+                                    left_on="COD_POSTAL", 
+                                    right_on="post_code",
+                                    how="left").drop(["post_code","ZIP_code"] ,axis=1)
 
 tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
 
