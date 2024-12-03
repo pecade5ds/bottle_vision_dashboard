@@ -57,8 +57,8 @@ gdf_post_code = gdf_post_code.merge(
 # merge post codes and detections
 variables_list = df_docs.columns.intersection(brand_list)
 
-st.table(gdf_post_code.columns)
-st.table(post_code_data.columns)
+st.write(gdf_post_code.columns)
+st.write(post_code_data.columns)
 
 # post_code_data  = df_docs[variables_list + ["post_code",'total_danone', 'total_non_danone', 'total_bottles']].groupby("post_code").sum().reset_index()
 
