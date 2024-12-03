@@ -56,7 +56,7 @@ gdf_post_code = gdf_post_code.merge(
 )
 
 # merge post codes and detections
-variables_list = df_docs.columns.intersection(brand_list)
+variables_list = list(df_docs.columns.intersection(brand_list))
 
 post_code_data  = df_docs.drop(["store_type","store_name","shelf id"],axis=1).groupby("COD_POSTAL").sum().reset_index()
 
@@ -164,7 +164,7 @@ elif tabs == "Granular KPIs":
     # Call your plotting function with the filtered data
     divergence_plot_matplotlib(filtered_df, post_code_select)
 
-    # score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
-    # fig = plot_interactive(gdf_post_code, score_column)
-    # st.pyplot(fig)
+    score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
+    fig = plot_interactive(gdf_post_code, score_column)
+    st.pyplot(fig)
     
