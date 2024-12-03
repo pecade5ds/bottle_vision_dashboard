@@ -103,10 +103,20 @@ def divergence_plot_matplotlib(df, codigo_postal):
     st.pyplot(fig)  # Aquí usamos st.pyplot para mostrar el gráfico
 
 def plot_interactive(gdf_data_input, score_column):
-    cmap = LinearSegmentedColormap.from_list("custom_cmap", ["blue", "white", "red"])
+    # Ensure the GeoDataFrame has a proper CRS for Plotly
+    gdf_data_input = gdf_data_input.to_crs(epsg=4326)  # EPSG:4326 for lat/lon coordinates
 
-    fig, ax = plt.subplots(1, 1, figsize=(10, 8))
-    gdf_data_input.plot(column=score_column, cmap=cmap, legend=True, ax=ax, edgecolor="black")
-    ax.set_title(f"CP by '{score_column}'", fontsize=16)
-    ax.axis("off")
+    # Create Plotly figure
+    fig = px.choropleth(gdf_data_input,
+                        geojson=gdf_data_input.geometry.__geo_interface__,
+                        locations=gdf_data_input.index,
+                        color=score_column,
+                        color_continuous_scale="RdBu",  # A color scale with blue -> white -> red
+                        hover_name="Name",  # Modify with appropriate column name for hover text
+                        title=f"Brand presence by CP: '{score_column}'")
+
+    # Update layout for better visualization
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout(title_font_size=16, geo=dict(showcoastlines=True, coastlinecolor="Black"))
+    
     return fig
