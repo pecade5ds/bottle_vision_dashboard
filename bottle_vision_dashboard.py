@@ -60,6 +60,8 @@ variables_list = df_docs.columns.intersection(brand_list)
 post_code_data  = df_docs[variables_list + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
 st.table(gdf_post_code)
 st.table(post_code_data)
+#  KeyError: "['ID_CP', 'ALTA_DB', 'CODIGO_INE'] not found in axis
+
 # gdf_post_code = gdf_post_code.merge(post_code_data, 
 #                                     left_on="COD_POSTAL", 
 #                                     right_on="post_code",
