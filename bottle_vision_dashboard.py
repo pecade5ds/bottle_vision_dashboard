@@ -58,44 +58,46 @@ gdf_post_code = gdf_post_code.merge(
 variables_list = df_docs.columns.intersection(brand_list)
 
 post_code_data  = df_docs[variables_list + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
-gdf_post_code = gdf_post_code.merge(post_code_data, 
-                                    left_on="COD_POSTAL", 
-                                    right_on="post_code",
-                                    how="left").drop(["post_code","ZIP_code"] ,axis=1)
+st.table(gdf_post_code)
+st.table(post_code_data)
+# gdf_post_code = gdf_post_code.merge(post_code_data, 
+#                                     left_on="COD_POSTAL", 
+#                                     right_on="post_code",
+#                                     how="left").drop(["post_code","ZIP_code"] ,axis=1)
 
-tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
+# tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
 
-if tabs == "Datos Generales":
-    st.header("Datos Generales")
-    st.write("Aquí se muestran los datos generales.")
+# if tabs == "Datos Generales":
+#     st.header("Datos Generales")
+#     st.write("Aquí se muestran los datos generales.")
 
-    danone_mkt_share = df_docs["total_danone"].sum() / df_docs["total_bottles"].sum()
-    non_danone_mkt_share = df_docs['total_non_danone'].sum() / df_docs["total_bottles"].sum()
+#     danone_mkt_share = df_docs["total_danone"].sum() / df_docs["total_bottles"].sum()
+#     non_danone_mkt_share = df_docs['total_non_danone'].sum() / df_docs["total_bottles"].sum()
     
-    danone_shelf_share = (df_docs["total_danone"] / df_docs["total_bottles"]).mean()
-    non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
+#     danone_shelf_share = (df_docs["total_danone"] / df_docs["total_bottles"]).mean()
+#     non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
     
-    # Divide el espacio en columnas
-    col1, col2 = st.columns(2)
+#     # Divide el espacio en columnas
+#     col1, col2 = st.columns(2)
     
-    with col1:
-        st.plotly_chart(plot_gauge_from_scalar(danone_mkt_share.round(2), "Danone MKT Share"), use_container_width=True)
+#     with col1:
+#         st.plotly_chart(plot_gauge_from_scalar(danone_mkt_share.round(2), "Danone MKT Share"), use_container_width=True)
     
-    with col2:
-        st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
+#     with col2:
+#         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
 
-    correlations = {var: gdf_post_code["Average Gross Income"].corr(gdf_post_code[var]) for var in variables_list}
+#     correlations = {var: gdf_post_code["Average Gross Income"].corr(gdf_post_code[var]) for var in variables_list}
     
-    correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
+#     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
     
-    correlations_fig, ax = plt.subplots(figsize=(8, 5))
-    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
-    ax.set_xlabel("Correlation Gross Income by Brand")
-    ax.set_title("Correlation Summary")
-    ax.grid(axis="x", linestyle="--", alpha=0.7)
-    st.pyplot(correlations_fig)
+#     correlations_fig, ax = plt.subplots(figsize=(8, 5))
+#     ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
+#     ax.set_xlabel("Correlation Gross Income by Brand")
+#     ax.set_title("Correlation Summary")
+#     ax.grid(axis="x", linestyle="--", alpha=0.7)
+#     st.pyplot(correlations_fig)
 
-elif tabs == "Datos Geolocalizados":
-    st.header("Datos Geolocalizados")
-    st.write("Aquí se muestran los datos geolocalizados.")
+# elif tabs == "Datos Geolocalizados":
+#     st.header("Datos Geolocalizados")
+#     st.write("Aquí se muestran los datos geolocalizados.")
     
