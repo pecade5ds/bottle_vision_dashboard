@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit as st
 
 def preprocess_docs(docs, competitor_danone_labels_dict):
     # Normalize the JSON data and flatten it into a DataFrame
