@@ -112,7 +112,7 @@ def plot_interactive(gdf_data_input, score_column):
                         locations=gdf_data_input.index,
                         color=score_column,
                         color_continuous_scale="RdBu",  # A color scale with blue -> white -> red
-                        hover_name="Name",  # Modify with appropriate column name for hover text
+                        hover_name="COD_POSTAL",  # Modify with a valid column name from your dataset
                         title=f"Brand presence by CP: '{score_column}'")
 
     # Update layout for better visualization
