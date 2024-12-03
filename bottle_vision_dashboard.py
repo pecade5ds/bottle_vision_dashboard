@@ -64,7 +64,7 @@ gdf_post_code = gdf_post_code.merge(post_code_data,
                                     on="COD_POSTAL", 
                                     how="left")
 
-tabs = st.radio("Selecciona una pestaña", ("Main KPIs", "Granular KPIs"))
+tabs = st.radio("Select Insights: ", ("Main KPIs", "Granular KPIs"))
 
 if tabs == "Main KPIs":
     st.header("Main KPIs")
