@@ -66,7 +66,6 @@ gdf_post_code = gdf_post_code.merge(post_code_data,
                                     how="left")
 
 tabs = st.tabs(["Main KPIs", "Granular KPIs"])
-# tabs = st.radio("Select Insights: ", ("Main KPIs", "Granular KPIs"))
 
 with tabs[0]:
 
@@ -103,10 +102,10 @@ with tabs[0]:
     with col11:
         plot_correlation(correlations_df)
     with col22:
-        # Create the choropleth map with hover data
-        plot_danone_share_map(gdf_post_code)
-    with col33:
         plot_competitor_share(podium_df)
+    with col33:
+        plot_danone_share_map(gdf_post_code)
+        
 
 with tabs[1]:
    
