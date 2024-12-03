@@ -164,29 +164,6 @@ elif tabs == "Granular KPIs":
     # Call your plotting function with the filtered data
     divergence_plot_matplotlib(filtered_df, post_code_select)
 
-    def plot_interactive(gdf_data_input, score_column):
-        # Create the map with Plotly Express
-        fig = px.choropleth(gdf_data_input, 
-                            geojson=gdf_data_input.geometry, # GeoJSON column (adjust according to your data)
-                            locations=gdf_data_input.index, # Index of your dataframe, adjust if needed
-                            color=score_column, 
-                            hover_name="COD_POSTAL",  # Adjust this to a column you want to show in hover info
-                            hover_data={
-                            'COD_POSTAL': True,  # Display the 'COD_POSTAL' column
-                            'Average Gross Income': True,  # Add more columns as needed
-                            'danone_share': True},
-                            color_continuous_scale=["white","darkblue"], 
-                            title=f"Geometrías coloreadas por '{score_column}'"
-        )
-    
-        # Update the map layout
-        fig.update_geos(fitbounds="locations", visible=False)
-        fig.update_layout(title_text=f"Geometrías coloreadas por '{score_column}'", title_x=0.5)
-    
-        # Show the plot
-        st.plotly_chart(fig)
-
-    # Streamlit widget for interaction
     score_column = st.selectbox(
         'Select the score column:',
         options=variables_list,
