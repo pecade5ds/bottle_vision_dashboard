@@ -39,7 +39,6 @@ with open("./Data/df_docs.pkl", "rb") as file:
 with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
     competitor_danone_labels_dict = json.load(json_file)
 
-
 # External Info: gross salary
 gross_salary_postcode_df = pd.read_csv("./Data/renta_barcelona.csv", sep=";", decimal=",")
 gross_salary_postcode_df['Cat_avg_Gross_Income'] = pd.qcut(gross_salary_postcode_df['Average Gross Income'], q=3, labels=['Low', 'Medium', 'High'])
@@ -56,7 +55,9 @@ gdf_post_code = gdf_post_code.merge(
 )
 
 # merge post codes and detections
-post_code_data  = df_docs[df_docs.columns.intersection(brand_list + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
+variables_list = df_docs.columns.intersection(brand_list)
+
+post_code_data  = df_docs[variables_list + ["post_code",'total_danone', 'total_non_danone', 'total_bottles'])].groupby("post_code").sum().reset_index()
 gdf_post_code = gdf_post_code.merge(post_code_data, 
                                     left_on="COD_POSTAL", 
                                     right_on="post_code",
@@ -82,6 +83,17 @@ if tabs == "Datos Generales":
     
     with col2:
         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
+
+    correlations = {var: gdf_post_code["Average Gross Income"].corr(gdf_post_code[var]) for var in variables_list}
+    
+    correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
+    
+    correlations_fig, ax = plt.subplots(figsize=(8, 5))
+    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
+    ax.set_xlabel("Correlation Gross Income by Brand")
+    ax.set_title("Correlation Summary")
+    ax.grid(axis="x", linestyle="--", alpha=0.7)
+    st.pyplot(correlations_fig)
 
 elif tabs == "Datos Geolocalizados":
     st.header("Datos Geolocalizados")
