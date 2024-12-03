@@ -62,7 +62,9 @@ post_code_data  = df_docs.drop(["store_type","store_name","shelf id"],axis=1).gr
 gdf_post_code_merged = gdf_post_code.merge(post_code_data, 
                                     left_on="COD_POSTAL", 
                                     right_on="post_code",
-                                    how="left").drop(["post_code","ZIP_code"] ,axis=1)
+                                    how="left")
+
+st.write(gdf_post_code_merged.columns)
 
 # tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
 
