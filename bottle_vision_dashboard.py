@@ -77,6 +77,8 @@ if tabs == "Main KPIs":
     danone_shelf_share = (df_docs["total_danone"] / df_docs["total_bottles"]).mean()
     non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
     reminder_share = 1 - float(danone_shelf_share) + float(non_danone_shelf_share)
+
+    st.write(float(danone_shelf_share), float(non_danone_shelf_share)
     
     # Divide el espacio en columnas
     col1, col2, col3 = st.columns(3)
