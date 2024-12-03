@@ -91,7 +91,7 @@ if tabs == "Main KPIs":
     
     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
     
-    col2_1, col2_2, col2_3 = st.columns(3)
+    col2_1, col2_2 = st.columns(2)
     
     with col2_1:
         correlations_fig, ax = plt.subplots(figsize=(8, 5))
@@ -119,29 +119,29 @@ if tabs == "Main KPIs":
         ax.axis('off') 
         
         st.pyplot(fig_map_danone)
-    with col2_3:
-        podium_df = pd.DataFrame({
-        "Product": df_docs[variables_list].sum().index,
-        "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
-        "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
+        
+    podium_df = pd.DataFrame({
+    "Product": df_docs[variables_list].sum().index,
+    "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
+    "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
+
+    fig_comp_danone = px.bar(
+        podium_df,
+        x="Product",
+        y="Share",
+        color="Category",
+        color_discrete_map={
+            "Danone": "blue",
+            "competitor": "red"
+        },
+        title="Top and Bottom Products (Danone vs Competitors)",
+        text="Share"
+    )
     
-        fig_comp_danone = px.bar(
-            podium_df,
-            x="Product",
-            y="Share",
-            color="Category",
-            color_discrete_map={
-                "Danone": "blue",
-                "competitor": "red"
-            },
-            title="Top and Bottom Products (Danone vs Competitors)",
-            text="Share"
-        )
-        
-        fig_comp_danone.update_traces(textposition="outside")
-        fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
-        st.plotly_chart(fig_comp_danone)
-        
+    fig_comp_danone.update_traces(textposition="outside")
+    fig_comp_danone.update_layout(xaxis_title="Products", yaxis_title="Values", template="plotly_white")
+    st.plotly_chart(fig_comp_danone)
+    
 
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
