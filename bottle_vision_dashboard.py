@@ -92,14 +92,14 @@ if tabs == "Main KPIs":
     plot_correlation(correlations_df)
     
     # Create the choropleth map with hover data
-    plot_danone_share_map(gdf_post_code):
+    plot_danone_share_map(gdf_post_code)
 
     podium_df = pd.DataFrame({
     "Product": df_docs[variables_list].sum().index,
     "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
     "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
 
-    plot_competitor_share(podium_df):    
+    plot_competitor_share(podium_df)
     
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
