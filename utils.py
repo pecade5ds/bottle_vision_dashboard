@@ -103,27 +103,25 @@ def divergence_plot_matplotlib(df, codigo_postal):
     st.pyplot(fig)  # Aquí usamos st.pyplot para mostrar el gráfico
 
 def plot_interactive(gdf_data_input, score_column):
-        # Create the map with Plotly Express
-        fig = px.choropleth(gdf_data_input, 
-                            geojson=gdf_data_input.geometry, # GeoJSON column (adjust according to your data)
-                            locations=gdf_data_input.index, # Index of your dataframe, adjust if needed
-                            color=score_column, 
-                            hover_name="COD_POSTAL",  # Adjust this to a column you want to show in hover info
-                            hover_data={
-                            'COD_POSTAL': True,  # Display the 'COD_POSTAL' column
-                            'Average Gross Income': True,  # Add more columns as needed
-                            'danone_share': True},
-                            color_continuous_scale=["white","darkblue"], 
-                            title=f"Post code presence: '{score_column}'"
-        )
-    
-        # Update the map layout
-        fig.update_geos(fitbounds="locations", visible=False)
-        fig.update_layout(title_text=f"Postcode presence: '{score_column}'", title_x=0.5),
-        )
-    
-        # Show the plot
-        st.plotly_chart(fig)
+    # Create the map with Plotly Express
+    fig = px.choropleth(gdf_data_input, 
+                        geojson=gdf_data_input.geometry, # GeoJSON column (adjust according to your data)
+                        locations=gdf_data_input.index, # Index of your dataframe, adjust if needed
+                        color=score_column, 
+                        hover_name="COD_POSTAL",  # Adjust this to a column you want to show in hover info
+                        hover_data={
+                        'COD_POSTAL': True,  # Display the 'COD_POSTAL' column
+                        'Average Gross Income': True,  # Add more columns as needed
+                        'danone_share': True},
+                        color_continuous_scale=["white","darkblue"], 
+                        title=f"Post code presence: '{score_column}'")
+
+    # Update the map layout
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout(title_text=f"Postcode presence: '{score_column}'", title_x=0.5))
+
+    # Show the plot
+    st.plotly_chart(fig)
 
 def plot_correlation(correlations_df):
     correlations_fig, ax = plt.subplots(figsize=(8, 5))
@@ -132,9 +130,6 @@ def plot_correlation(correlations_df):
     ax.set_title("Correlation Summary")
     ax.grid(axis="x", linestyle="--", alpha=0.7)
     st.pyplot(correlations_fig)
-
-import plotly.express as px
-import streamlit as st
 
 def plot_danone_share_map(gdf_post_code):
     # Create the choropleth map
