@@ -12,17 +12,6 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import requests
 
-st.markdown("""
-    <style>
-    .streamlit-expanderHeader {
-        font-size: 30px !important; /* Cambia el tamaño de la fuente de los tabs */
-    }
-    .st-tabs .st-tab {
-        font-size: 20px !important; /* Asegura que el tamaño se aplique a cada tab */
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 # Config
 brand_list = ['fontvella', 'viladrau', 'cabreiroa', 'vichy', 'lanjaron', 'bezoya', 'veri', 'aquabona', 'solan', 'evian', 'ribes', 'boix', 'aquarel', 'perrier', 'fonter', 'aquafina', 'fontagudes', 'aquadeus', 'casera', 'santaniol', 'cocacola']
 
