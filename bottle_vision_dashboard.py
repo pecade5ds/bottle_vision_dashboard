@@ -170,7 +170,7 @@ elif tabs == "Granular KPIs":
                             geojson=gdf_data_input.geometry, # GeoJSON column (adjust according to your data)
                             locations=gdf_data_input.index, # Index of your dataframe, adjust if needed
                             color=score_column, 
-                            hover_name='some_column',  # Adjust this to a column you want to show in hover info
+                            hover_name=score_column,  # Adjust this to a column you want to show in hover info
                             color_continuous_scale="RdBu",  # Custom color map
                             title=f"Geometrías coloreadas por '{score_column}'"
         )
