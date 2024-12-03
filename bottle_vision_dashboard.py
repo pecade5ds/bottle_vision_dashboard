@@ -17,7 +17,7 @@ st.title("Bottle Vision Dashboard")
 
 # Load local data for testing mode as firebase has 50K queried documents/day limit
 with open("./Data/df_docs.pkl", "rb") as archivo:
-    mi_objeto_cargado = pickle.load(archivo)
+    df_docs = pickle.load(archivo)
 
 # Firebase credentials
 # db = firestore.Client.from_service_account_info(st.secrets["firebase"])
