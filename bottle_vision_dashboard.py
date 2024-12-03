@@ -60,7 +60,7 @@ variables_list = df_docs.columns.intersection(brand_list)
 st.write(gdf_post_code.columns)
 st.write(df_docs.columns)
 
-post_code_data  = df_docs.drop("store_type","store_name","shelf id",axis=1).groupby("post_code").sum().reset_index()
+post_code_data  = df_docs.drop(["store_type","store_name","shelf id"],axis=1).groupby("post_code").sum().reset_index()
 
 #  KeyError: "['ID_CP', 'ALTA_DB', 'CODIGO_INE'] not found in axis
 
