@@ -185,10 +185,10 @@ elif tabs == "Granular KPIs":
     # Streamlit widget for interaction
     score_column = st.selectbox(
         'Select the score column:',
-        options=['fontvella', 'another_column'],  # Replace with your list of columns
+        options=variables_list
         index=0
     )
     
     # Call the function with the selected column
-    plot_interactive(gdf_data_input, score_column)
+    plot_interactive(gdf_post_code, score_column)
     
