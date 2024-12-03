@@ -160,3 +160,32 @@ def plot_danone_share_map(gdf_post_code):
 
     # Display the map in Streamlit
     st.plotly_chart(fig_map_danone)
+
+import plotly.express as px
+import streamlit as st
+
+def plot_competitor_share(podium_df):
+    # Crear el gráfico de barras
+    fig = px.bar(
+        podium_df,
+        x="Product",
+        y="Share",
+        color="Category",
+        color_discrete_map={
+            "Danone": "blue",
+            "competitor": "red"
+        },
+        title="Top and Bottom Products (Danone vs Competitors)",
+        text="Share"
+    )
+    
+    # Ajustar la posición del texto y el diseño
+    fig.update_traces(textposition="outside")
+    fig.update_layout(
+        xaxis_title="Products", 
+        yaxis_title="Values", 
+        template="plotly_white"
+    )
+    
+    # Mostrar el gráfico en Streamlit
+    st.plotly_chart(fig)
