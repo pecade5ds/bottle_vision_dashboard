@@ -91,8 +91,6 @@ with tabs[0]:
 
     with col1_3:
         st.plotly_chart(plot_gauge_from_scalar(reminder_share, "Bottles Shelf Share"), use_container_width=True)
-
-    st.markdown("---")
     
     correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])   
