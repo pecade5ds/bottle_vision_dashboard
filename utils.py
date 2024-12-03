@@ -132,3 +132,31 @@ def plot_correlation(correlations_df):
     ax.set_title("Correlation Summary")
     ax.grid(axis="x", linestyle="--", alpha=0.7)
     st.pyplot(correlations_fig)
+
+import plotly.express as px
+import streamlit as st
+
+def plot_danone_share_map(gdf_post_code):
+    # Create the choropleth map
+    fig_map_danone = px.choropleth(
+        gdf_post_code,
+        geojson=gdf_post_code.geometry,
+        locations=gdf_post_code.index,  # or a column with unique identifiers
+        color='total_danone',
+        color_continuous_scale='Blues',
+        labels={'total_danone': 'Danone Share'},
+        hover_data={'total_danone': True, 
+                    'COD_POSTAL': True,
+                    'Average Gross Income': True,
+                    'danone_share': True},  
+    )
+    
+    # Update layout to remove axis and add a title
+    fig_map_danone.update_geos(fitbounds="locations")
+    fig_map_danone.update_layout(
+        title="Danone Share Map",
+        geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
+    )
+
+    # Display the map in Streamlit
+    st.plotly_chart(fig_map_danone)
