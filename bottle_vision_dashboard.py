@@ -64,41 +64,37 @@ gdf_post_code_merged = gdf_post_code.merge(post_code_data,
                                     on="COD_POSTAL", 
                                     how="left")
 
-st.write(gdf_post_code_merged.columns)
+tabs = st.radio("Selecciona una pestaña", ("Main KPIs", "Granular KPIs"))
 
-# tabs = st.radio("Selecciona una pestaña", ("Datos Generales", "Datos Geolocalizados"))
+if tabs == "Main KPIs":
+    st.header("Main KPIs")
 
-# if tabs == "Datos Generales":
-#     st.header("Datos Generales")
-#     st.write("Aquí se muestran los datos generales.")
+    danone_mkt_share = df_docs["total_danone"].sum() / df_docs["total_bottles"].sum()
+    non_danone_mkt_share = df_docs['total_non_danone'].sum() / df_docs["total_bottles"].sum()
+    
+    danone_shelf_share = (df_docs["total_danone"] / df_docs["total_bottles"]).mean()
+    non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
+    
+    # Divide el espacio en columnas
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.plotly_chart(plot_gauge_from_scalar(danone_mkt_share.round(2), "Danone MKT Share"), use_container_width=True)
+    
+    with col2:
+        st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
 
-#     danone_mkt_share = df_docs["total_danone"].sum() / df_docs["total_bottles"].sum()
-#     non_danone_mkt_share = df_docs['total_non_danone'].sum() / df_docs["total_bottles"].sum()
+    correlations = {var: gdf_post_code["Average Gross Income"].corr(gdf_post_code[var]) for var in variables_list}
     
-#     danone_shelf_share = (df_docs["total_danone"] / df_docs["total_bottles"]).mean()
-#     non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
+    correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
     
-#     # Divide el espacio en columnas
-#     col1, col2 = st.columns(2)
-    
-#     with col1:
-#         st.plotly_chart(plot_gauge_from_scalar(danone_mkt_share.round(2), "Danone MKT Share"), use_container_width=True)
-    
-#     with col2:
-#         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
+    correlations_fig, ax = plt.subplots(figsize=(8, 5))
+    ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
+    ax.set_xlabel("Correlation Gross Income by Brand")
+    ax.set_title("Correlation Summary")
+    ax.grid(axis="x", linestyle="--", alpha=0.7)
+    st.pyplot(correlations_fig)
 
-#     correlations = {var: gdf_post_code["Average Gross Income"].corr(gdf_post_code[var]) for var in variables_list}
-    
-#     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
-    
-#     correlations_fig, ax = plt.subplots(figsize=(8, 5))
-#     ax.barh(correlations_df["Variable"], correlations_df["Correlation"], color="skyblue")
-#     ax.set_xlabel("Correlation Gross Income by Brand")
-#     ax.set_title("Correlation Summary")
-#     ax.grid(axis="x", linestyle="--", alpha=0.7)
-#     st.pyplot(correlations_fig)
-
-# elif tabs == "Datos Geolocalizados":
-#     st.header("Datos Geolocalizados")
-#     st.write("Aquí se muestran los datos geolocalizados.")
+elif tabs == "Granular KPIs":
+    st.header("Granular KPIs")
     
