@@ -15,7 +15,7 @@ import requests
 st.markdown("""
     <style>
     .streamlit-tabs {
-        font-size: 20px !important; /* Cambia el tamaño de la fuente de los tabs */
+        font-size: 30px !important; /* Cambia el tamaño de la fuente de los tabs */
     }
     .st-tabs .st-tab {
         font-size: 20px !important; /* Asegura que el tamaño se aplique a cada tab */
