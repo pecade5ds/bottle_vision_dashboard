@@ -86,10 +86,16 @@ def divergence_plot_matplotlib(df, codigo_postal):
     ax.barh(danone['brand'], danone['value'], color='blue', label='Danone')
     ax.barh(competidor['brand'], competidor['value'], color='red', label='Competitor')
 
+    # Ajuste del título y los ejes
     ax.set_title(f"Brand by Post Code: {codigo_postal} (Competitor vs Danone)", fontsize=14)
     ax.set_xlabel("Value", fontsize=12)
     ax.set_ylabel("Brand", fontsize=12)
     ax.axvline(0, color='black', linewidth=0.8, linestyle='--')  # Línea vertical en 0
+
+    # Configuración de los valores del eje x para mostrar solo valores positivos
+    ax.set_xticks(ax.get_xticks())  # Obtener los valores del eje X
+    ax.set_xticklabels([abs(x) for x in ax.get_xticks()])  # Mostrar solo valores positivos
+
     ax.legend(loc='upper right', fontsize=12)
 
     # Mostrar el gráfico en Streamlit
