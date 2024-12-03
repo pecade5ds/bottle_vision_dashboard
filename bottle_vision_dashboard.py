@@ -163,7 +163,7 @@ elif tabs == "Granular KPIs":
     filtered_df = df_in[df_in['COD_POSTAL'] == post_code_select]
     
     # Call your plotting function with the filtered data
-    divergence_plot_matplotlib(filtered_df)
+    divergence_plot_matplotlib(filtered_df, post_code_select)
     
     
     
