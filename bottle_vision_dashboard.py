@@ -160,7 +160,7 @@ elif tabs == "Granular KPIs":
     post_code_select = st.selectbox('Post Code:', codigos_postales)
     
     # Filter the data based on the selected post code
-    filtered_df = df_in[df_in['post_code'] == post_code_select]
+    filtered_df = df_in[df_in['COD_POSTAL'] == post_code_select]
     
     # Call your plotting function with the filtered data
     divergence_plot_matplotlib(filtered_df)
