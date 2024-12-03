@@ -47,7 +47,7 @@ gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_pos
 # Post codes geojson load
 gdf_post_code = gpd.read_file('./Data/BARCELONA.geojson', columns=["COD_POSTAL", "geometry"])
 
-gdf_post_code = gdf_post_code.merge(
+gdf_post_code_merged = gdf_post_code.merge(
     gross_salary_postcode_df,
     left_on=["COD_POSTAL"],
     right_on=["ZIP_code"],
@@ -58,7 +58,8 @@ gdf_post_code = gdf_post_code.merge(
 variables_list = df_docs.columns.intersection(brand_list)
 
 st.write(gdf_post_code.columns)
-st.write(post_code_data.columns)
+st.write(df_docs.columns)
+
 
 # post_code_data  = df_docs[variables_list + ["post_code",'total_danone', 'total_non_danone', 'total_bottles']].groupby("post_code").sum().reset_index()
 
