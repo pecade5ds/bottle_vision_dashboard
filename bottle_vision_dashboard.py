@@ -164,7 +164,31 @@ elif tabs == "Granular KPIs":
     # Call your plotting function with the filtered data
     divergence_plot_matplotlib(filtered_df, post_code_select)
 
-    score_column = st.selectbox('Select Brand:', variables_list, index=variables_list.index('fontvella'))
-    fig = plot_interactive(gdf_post_code, score_column)
-    st.pyplot(fig)
+    def plot_interactive(gdf_data_input, score_column):
+        # Create the map with Plotly Express
+        fig = px.choropleth(gdf_data_input, 
+                            geojson=gdf_data_input.geometry, # GeoJSON column (adjust according to your data)
+                            locations=gdf_data_input.index, # Index of your dataframe, adjust if needed
+                            color=score_column, 
+                            hover_name='some_column',  # Adjust this to a column you want to show in hover info
+                            color_continuous_scale="RdBu",  # Custom color map
+                            title=f"Geometrías coloreadas por '{score_column}'"
+        )
+    
+        # Update the map layout
+        fig.update_geos(fitbounds="locations", visible=False)
+        fig.update_layout(title_text=f"Geometrías coloreadas por '{score_column}'", title_x=0.5)
+    
+        # Show the plot
+        st.plotly_chart(fig)
+
+    # Streamlit widget for interaction
+    score_column = st.selectbox(
+        'Select the score column:',
+        options=['fontvella', 'another_column'],  # Replace with your list of columns
+        index=0
+    )
+    
+    # Call the function with the selected column
+    plot_interactive(gdf_data_input, score_column)
     
