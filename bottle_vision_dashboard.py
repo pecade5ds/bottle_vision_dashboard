@@ -146,7 +146,7 @@ if tabs == "Main KPIs":
 elif tabs == "Granular KPIs":
     st.header("Granular KPIs")
    
-    codigos_postales = df_docs['post_code'].unique()
+    codigos_postales = df_docs['COD_POSTAL'].unique()
     
     df_in = pd.melt(df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["COD_POSTAL"])],
                     id_vars=['COD_POSTAL'],
