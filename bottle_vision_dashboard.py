@@ -49,7 +49,7 @@ gross_salary_postcode_df['Cat_avg_Disposable_Income'] = pd.qcut(gross_salary_pos
 # Post codes geojson load
 gdf_post_code = gpd.read_file('./Data/BARCELONA.geojson', columns=["COD_POSTAL", "geometry"])
 
-gdf_post_code_merged = gdf_post_code.merge(
+gdf_post_code = gdf_post_code.merge(
     gross_salary_postcode_df,
     on=["COD_POSTAL"],
     how="inner"
@@ -60,7 +60,7 @@ variables_list = df_docs.columns.intersection(brand_list)
 
 post_code_data  = df_docs.drop(["store_type","store_name","shelf id"],axis=1).groupby("COD_POSTAL").sum().reset_index()
 
-gdf_post_code_merged = gdf_post_code.merge(post_code_data, 
+gdf_post_code = gdf_post_code.merge(post_code_data, 
                                     on="COD_POSTAL", 
                                     how="left")
 
@@ -86,7 +86,7 @@ if tabs == "Main KPIs":
     with col2:
         st.plotly_chart(plot_gauge_from_scalar(non_danone_shelf_share.round(2), "Non-Danone Shelf Share"), use_container_width=True)
 
-    correlations = {var: gdf_post_code_merged ["Average Gross Income"].corr(gdf_post_code_merged [var]) for var in variables_list}
+    correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
     
     correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"])
     
