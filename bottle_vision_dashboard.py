@@ -64,7 +64,7 @@ gdf_post_code_merged = gdf_post_code.merge(post_code_data,
                                     on="COD_POSTAL", 
                                     how="left")
 
-st.write(gdf_post_code_megred.columns)
+st.write(gdf_post_code_merged.columns)
 
 tabs = st.radio("Selecciona una pestaña", ("Main KPIs", "Granular KPIs"))
 
