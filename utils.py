@@ -123,8 +123,25 @@ def plot_interactive(gdf_data_input, score_column):
 
     # Update the map layout
     fig.update_geos(fitbounds="locations", visible=False)
-    fig.update_layout(title_text=f"Postcode presence: '{score_column}'", title_x=0.5)
-
+    fig.update_layout(
+        title_text=f"Postcode presence: '{score_column}'", title_x=0.2,title_y=0.91,
+        geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
+        coloraxis_colorbar=dict(
+        title=dict(
+            text="Danone Share",
+            side='top',  # puts title above the colorbar
+            font=dict(size=12)  # optional: adjust font size
+        ),
+        orientation='h',  # horizontal orientation
+        yanchor='top',
+        y=1.05,  # position at bottom
+        xanchor='center',
+        x=0.5,  # center horizontally
+        thickness=15,  # adjust thickness of the colorbar
+        len=0.5,  # adjust length of the colorbar
+    )
+)
+    
     # Show the plot
     st.plotly_chart(fig)
 
@@ -168,35 +185,135 @@ def plot_danone_share_map(gdf_post_code):
     # Update layout to remove axis and add a title
     fig_map_danone.update_geos(fitbounds="locations")
     fig_map_danone.update_layout(
-        title="Danone Share Map",
+        title="",
         geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
+        coloraxis_colorbar=dict(
+        title=dict(
+            text="Danone Share",
+            side='top',  # puts title above the colorbar
+            font=dict(size=14)  # optional: adjust font size
+        ),
+        # title="Danone Share",
+        orientation='h',  # horizontal orientation
+        yanchor='bottom',
+        y=1,  # position at bottom
+        xanchor='center',
+        x=0.5,  # center horizontally
+        thickness=20,  # adjust thickness of the colorbar
+        len=0.5,  # adjust length of the colorbar
     )
+)
 
     # Display the map in Streamlit
     st.plotly_chart(fig_map_danone)
 
 def plot_competitor_share(podium_df):
-    # Crear el gráfico de barras
-    fig = px.bar(
-        podium_df,
-        x="Product",
-        y="Share",
-        color="Category",
-        color_discrete_map={
-            "Danone": "blue",
-            "competitor": "red"
-        },
-        title="Top and Bottom Products (Danone vs Competitors)",
-        text="Share"
-    )
+        # Crear el gráfico de barras
+        fig = px.bar(
+            podium_df,
+            x="Product",
+            y="Share",
+            color="Category",
+            color_discrete_map={
+                "Danone": "blue",
+                "competitor": "red"
+            },
+            title="Top and Bottom Products (Danone vs Competitors)",
+            text="Share"
+        )
+        
+        # Ajustar la posición del texto y el diseño
+        fig.update_traces(textposition="outside")
+        fig.update_layout(
+            xaxis_title="Products", 
+            yaxis_title="Values", 
+            template="plotly_white",
+            title_font=dict(size=14),  
+            legend=dict(
+                orientation="h",
+                yanchor="top",
+                y=1.15,
+                xanchor="center",
+                x=0.5,
+                title=""  
+            ),
+            yaxis=dict(
+                automargin = True
+            )  # Increase the top margin to fit the highest value label
+        )
+        
+        # Mostrar el gráfico en Streamlit
+        st.plotly_chart(fig)
+
+
+def divergence_plot_plotly(df, codigo_postal):
+    # Filter data
+    df_filtered = df[df['COD_POSTAL'] == codigo_postal]
     
-    # Ajustar la posición del texto y el diseño
-    fig.update_traces(textposition="outside")
+    # Create figure
+    fig = go.Figure()
+    
+    # Add Danone bars
+    danone_data = df_filtered[df_filtered['Category'] == 'Danone']
+    fig.add_trace(go.Bar(
+        name='Danone',
+        y=danone_data['brand'],
+        x=danone_data['value'],
+        orientation='h',
+        marker_color='rgb(49, 130, 189)',  # Blue color
+    ))
+    
+    # Add Competitor bars
+    competitor_data = df_filtered[df_filtered['Category'] == 'competitor']
+    fig.add_trace(go.Bar(
+        name='Competitor',
+        y=competitor_data['brand'],
+        x=competitor_data['value'],
+        orientation='h',
+        marker_color='rgb(204, 36, 41)',  # Red color
+    ))
+    
+    # Update layout
     fig.update_layout(
-        xaxis_title="Products", 
-        yaxis_title="Values", 
-        template="plotly_white"
+        title=dict(
+            text=f"Brand by Post Code: {codigo_postal} (Competitor vs Danone)",
+            x=0.1,  # Center title
+            font=dict(size=13)
+        ),
+        xaxis=dict(
+            title="Value",
+            zeroline=True,
+            zerolinecolor='black',
+            zerolinewidth=1,
+            showgrid=True,
+            tickformat='.0f',  # Remove decimal places
+            tickprefix='',  # Can add prefix if needed
+            ticksuffix=''   # Can add suffix if needed
+        ),
+        yaxis=dict(
+            title="Brand",
+            autorange="reversed"  # Keep same order as original
+        ),
+        barmode='relative',
+        bargap=0.2,
+        height=600,
+        width=800,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        )
     )
     
-    # Mostrar el gráfico en Streamlit
-    st.plotly_chart(fig)
+    # Show absolute values on hover
+    fig.update_traces(
+        hovertemplate="<b>%{y}</b><br>" +
+                      "Value: %{x:,.0f}<br>" +
+                      "<extra></extra>"  # Remove secondary box
+    )
+    
+    # Return figure to be displayed in Streamlit
+    return st.plotly_chart(fig, use_container_width=True)
