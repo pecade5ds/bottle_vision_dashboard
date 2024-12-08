@@ -75,7 +75,8 @@ def plot_gauge_from_scalar(score, score_column):
     
     fig.update_layout(
         margin={'t': 0, 'b': 0, 'l': 0, 'r': 0},  # Remove margins
-        height=250  # Adjust the height to your desired size
+        height=300,  # Adjust the height to a smaller size
+        width=400  # Adjust the width to a smaller size
     )
 
     return fig
@@ -118,13 +119,11 @@ def plot_interactive(gdf_data_input, score_column):
                         'COD_POSTAL': True,  # Display the 'COD_POSTAL' column
                         'Average Gross Income': True,  # Add more columns as needed
                         'danone_share': True},
-                        color_continuous_scale=["white","darkblue"], 
-                        title=f"Post code presence: '{score_column}'")
+                        color_continuous_scale=["white","darkblue"])
 
     # Update the map layout
     fig.update_geos(fitbounds="locations", visible=False)
     fig.update_layout(
-        title_text=f"Postcode presence: '{score_column}'", title_x=0.2,title_y=0.91,
         geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
         coloraxis_colorbar=dict(
         title=dict(
@@ -134,12 +133,14 @@ def plot_interactive(gdf_data_input, score_column):
         ),
         orientation='h',  # horizontal orientation
         yanchor='top',
-        y=1.05,  # position at bottom
+        y=1.2,  # position at bottom
         xanchor='center',
         x=0.5,  # center horizontally
         thickness=15,  # adjust thickness of the colorbar
         len=0.5,  # adjust length of the colorbar
-    )
+    ),
+        width=1200,  # Adjust this value to make it wider
+        height=600,  # Adjust this to maintain proportion
 )
     
     # Show the plot
@@ -167,45 +168,100 @@ def plot_correlation(correlations_df):
     # Mostrar el gráfico en Streamlit
     st.plotly_chart(fig, use_container_width=True)
     
+# def plot_danone_share_map(gdf_post_code):
+#     # Create the choropleth map
+#     fig_map_danone = px.choropleth(
+#         gdf_post_code,
+#         geojson=gdf_post_code.geometry,
+#         locations=gdf_post_code.index,  # or a column with unique identifiers
+#         color='total_danone',
+#         color_continuous_scale='Blues',
+#         labels={'total_danone': 'Danone Share'},
+#         hover_data={'total_danone': True, 
+#                     'COD_POSTAL': True,
+#                     'Average Gross Income': True,
+#                     'danone_share': True},  
+#     )
+    
+#     # Update layout to remove axis and add a title
+#     fig_map_danone.update_geos(fitbounds="locations")
+#     fig_map_danone.update_layout(
+#         title="",
+#         width=2000,  # Adjust this value to make it wider
+#         height=600,  # Adjust this to maintain proportion
+#         geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
+#         coloraxis_colorbar=dict(
+#         title=dict(
+#             text="Danone Share",
+#             side='top',  # puts title above the colorbar
+#             font=dict(size=14)  # optional: adjust font size
+#         ),
+#         # title="Danone Share",
+#         orientation='h',  # horizontal orientation
+#         yanchor='bottom',
+#         y=1,  # position at bottom
+#         xanchor='center',
+#         x=0.5,  # center horizontally
+#         thickness=20,  # adjust thickness of the colorbar
+#         len=0.2,  # adjust length of the colorbar
+#     )
+# )
+
+#     # Display the map in Streamlit
+#     st.plotly_chart(fig_map_danone, use_container_width=True)
+
 def plot_danone_share_map(gdf_post_code):
-    # Create the choropleth map
-    fig_map_danone = px.choropleth(
+
+    gdf_post_code = gdf_post_code.copy()
+    gdf_post_code['center'] = gdf_post_code.geometry.centroid
+    gdf_post_code['lat'] = gdf_post_code.center.y
+    gdf_post_code['lon'] = gdf_post_code.center.x
+    
+    # Create the choropleth mapbox
+    fig_map_danone = px.choropleth_mapbox(
         gdf_post_code,
         geojson=gdf_post_code.geometry,
-        locations=gdf_post_code.index,  # or a column with unique identifiers
+        locations=gdf_post_code.index,
         color='total_danone',
         color_continuous_scale='Blues',
+        mapbox_style='carto-positron',  # Add OpenStreetMap base layer
+        center={'lat': gdf_post_code.lat.mean(), 
+                'lon': gdf_post_code.lon.mean()},
+        zoom=11,  # Adjust this value based on your data coverage
+        opacity=0.8,  # Adjust transparency of the choropleth layer
         labels={'total_danone': 'Danone Share'},
-        hover_data={'total_danone': True, 
-                    'COD_POSTAL': True,
-                    'Average Gross Income': True,
-                    'danone_share': True},  
+        hover_data={
+            'total_danone': True,
+            'COD_POSTAL': True,
+            'Average Gross Income': True,
+            'danone_share': True
+        }
     )
-    
-    # Update layout to remove axis and add a title
-    fig_map_danone.update_geos(fitbounds="locations")
+
+    # Update layout
     fig_map_danone.update_layout(
         title="",
-        geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
+        width=2000,
+        height=600,
+        margin={"r":0,"t":0,"l":0,"b":0},  # Reduce margins to maximize map space
         coloraxis_colorbar=dict(
-        title=dict(
-            text="Danone Share",
-            side='top',  # puts title above the colorbar
-            font=dict(size=14)  # optional: adjust font size
-        ),
-        # title="Danone Share",
-        orientation='h',  # horizontal orientation
-        yanchor='bottom',
-        y=1,  # position at bottom
-        xanchor='center',
-        x=0.5,  # center horizontally
-        thickness=20,  # adjust thickness of the colorbar
-        len=0.5,  # adjust length of the colorbar
+            title=dict(
+                text="Danone Share",
+                side='top',
+                font=dict(size=14)
+            ),
+            orientation='h',
+            yanchor='bottom',
+            y=1,
+            xanchor='center',
+            x=0.5,
+            thickness=20,
+            len=1
+        )
     )
-)
 
     # Display the map in Streamlit
-    st.plotly_chart(fig_map_danone)
+    st.plotly_chart(fig_map_danone, use_container_width=True)
 
 def plot_competitor_share(podium_df):
         # Crear el gráfico de barras
@@ -275,11 +331,11 @@ def divergence_plot_plotly(df, codigo_postal):
     
     # Update layout
     fig.update_layout(
-        title=dict(
-            text=f"Brand by Post Code: {codigo_postal} (Competitor vs Danone)",
-            x=0.1,  # Center title
-            font=dict(size=13)
-        ),
+        # title=dict(
+        #     text=f"Brand by Post Code: {codigo_postal} (Competitor vs Danone)",
+        #     x=0.1,  # Center title
+        #     font=dict(size=13)
+        # ),
         xaxis=dict(
             title="Value",
             zeroline=True,
