@@ -82,7 +82,7 @@ st.sidebar.markdown(f"**Last Updated:** {datetime.datetime.now().strftime('%Y-%m
 col1,col2 = st.columns(2)
 
 with col1:
- st.header(f"Brand performance by Post Code: {post_code_select}",divider="grey")
+ st.header(f"Brand performance for Post Code: {post_code_select}",divider="grey")
  filtered_df = df_in[df_in['COD_POSTAL'] == post_code_select]
  divergence_plot_plotly(filtered_df, post_code_select)
 

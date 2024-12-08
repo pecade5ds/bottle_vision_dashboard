@@ -256,7 +256,7 @@ def plot_danone_share_map(gdf_post_code):
             xanchor='center',
             x=0.5,
             thickness=20,
-            len=1
+            len=.5
         )
     )
 
