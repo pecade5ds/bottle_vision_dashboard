@@ -6,6 +6,7 @@ import geopandas as gpd
 import plotly.express as px
 from utils import *
 import json
+import datetime
 
 import firebase_admin
 from firebase_admin import credentials
@@ -19,9 +20,44 @@ st.markdown(
     """
     <h1 style="text-align: center;">Bottle Vision Dashboard</h1>
     """, 
-    unsafe_allow_html=True
+    unsafe_allow_html=True 
 )
 
+# Add sidebar
+st.sidebar.markdown("# About This Dashboard")
+st.sidebar.markdown("""
+This dashboard provides real-time analysis of bottle placement and market share across locations.
+
+### Purpose
+- Monitor Danone's shelf presence vs competitors
+- Track geographical coverage of products
+- Analyze market share correlations with demographic data
+
+### How to Use
+1. **Main KPIs Tab**
+   - View overall shelf share metrics
+   - Analyze income correlations
+   - Explore geographical distribution
+
+2. **Granular KPIs Tab**
+   - Select specific postal codes for detailed analysis
+   - Compare brand performance
+   - View detailed geographical breakdowns
+
+### Data Sources
+- Store shelf scanning data
+- Barcelona postal code demographics
+- Average income data by postal code
+- Data collected by the field team
+
+### Updates
+Data is refreshed daily from our store scanning system.
+""")
+
+# Add version info and last update time
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Version:** 1.0.0")
+st.sidebar.markdown(f"**Last Updated:** {datetime.datetime.now().strftime('%Y-%m-%d')}")
 
 # Firebase credentials
 # db = firestore.Client.from_service_account_info(st.secrets["firebase"])
@@ -70,6 +106,7 @@ gdf_post_code = gdf_post_code.merge(post_code_data,
                                     on="COD_POSTAL", 
                                     how="left")
 
+
 tabs = st.tabs(["Main KPIs", "Granular KPIs"])
 
 with tabs[0]:
@@ -99,10 +136,9 @@ with tabs[0]:
         "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
         "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
 
-
     col11, col22 = st.columns([1, 1])  # Dos columnas verticales (de igual tamaño)
     col33 = st.columns(1)  # Una columna horizontal
-    
+
     # Primer gráfico en la primera columna (col1)
     with col11:
         plot_correlation(correlations_df)
@@ -112,33 +148,63 @@ with tabs[0]:
     plot_danone_share_map(gdf_post_code)
         
 
-with tabs[1]:
+# with tabs[1]:
    
-    codigos_postales = df_docs['COD_POSTAL'].unique()
+#     codigos_postales = df_docs['COD_POSTAL'].unique()
     
+#     df_in = pd.melt(df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["COD_POSTAL"])],
+#                     id_vars=['COD_POSTAL'],
+#                     var_name='brand',
+#                     value_name='value')
+#     df_in['Category'] = df_in['brand'].map(competitor_danone_labels_dict)
+    
+#     df_in.loc[df_in.Category == "competitor", "value"] = df_in.loc[df_in.Category == "competitor", "value"] * -1
+
+#     # Streamlit widget for selecting postal code
+#     post_code_select = st.selectbox('Post Code:', codigos_postales)
+    
+#     # Filter the data based on the selected post code
+#     filtered_df = df_in[df_in['COD_POSTAL'] == post_code_select]
+    
+#     # Call your plotting function with the filtered data
+#     divergence_plot_plotly(filtered_df, post_code_select)
+
+#     score_column = st.selectbox(
+#         'Select the score column:',
+#         options=variables_list,
+#         index=0
+#     )
+    
+#     # Call the function with the selected column
+#     plot_interactive(gdf_post_code, score_column)
+
+
+with tabs[1]:
+    # Data preprocessing
+    codigos_postales = df_docs['COD_POSTAL'].unique()
     df_in = pd.melt(df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["COD_POSTAL"])],
                     id_vars=['COD_POSTAL'],
                     var_name='brand',
                     value_name='value')
     df_in['Category'] = df_in['brand'].map(competitor_danone_labels_dict)
-    
     df_in.loc[df_in.Category == "competitor", "value"] = df_in.loc[df_in.Category == "competitor", "value"] * -1
 
-    # Streamlit widget for selecting postal code
-    post_code_select = st.selectbox('Post Code:', codigos_postales)
-    
-    # Filter the data based on the selected post code
-    filtered_df = df_in[df_in['COD_POSTAL'] == post_code_select]
-    
-    # Call your plotting function with the filtered data
-    divergence_plot_matplotlib(filtered_df, post_code_select)
+    # Create two equal columns
+    col1, col2 = st.columns(2)
 
-    score_column = st.selectbox(
-        'Select the score column:',
-        options=variables_list,
-        index=0
-    )
-    
-    # Call the function with the selected column
-    plot_interactive(gdf_post_code, score_column)
-    
+    # Left column content
+    with col1:
+        # st.markdown("### Brand Performance")
+        post_code_select = st.selectbox('Select Post Code:', codigos_postales)
+        filtered_df = df_in[df_in['COD_POSTAL'] == post_code_select]
+        divergence_plot_plotly(filtered_df, post_code_select)
+
+    # Right column content
+    with col2:
+        # st.markdown("### Geographic Distribution")
+        score_column = st.selectbox(
+            'Select Score Column:',
+            options=variables_list,
+            index=0
+        )
+        plot_interactive(gdf_post_code, score_column)
