@@ -85,5 +85,5 @@ with col1:
  divergence_plot_plotly(filtered_df, post_code_select)
 
 with col2:
- st.header(f"Danone performance vs. {score_column}",divider = "grey")
+ st.header(f"{score_column} Postcode presence",divider = "grey")
  plot_interactive(gdf_post_code, score_column)
