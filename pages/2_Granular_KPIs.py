@@ -45,17 +45,6 @@ gdf_post_code = gdf_post_code.merge(post_code_data,
                                     on="COD_POSTAL", 
                                     how="left")
 
-# danone_shelf_share = (df_docs["total_danone"] / df_docs["total_bottles"]).mean()
-# non_danone_shelf_share = (df_docs["total_non_danone"] / df_docs["total_bottles"]).mean()
-# reminder_share = 1 - (float(danone_shelf_share) + float(non_danone_shelf_share))
-
-# correlations = {var: gdf_post_code ["Average Gross Income"].corr(gdf_post_code [var]) for var in variables_list}
-# correlations_df = pd.DataFrame(list(correlations.items()), columns=["Variable", "Correlation"]).round(2)
-# podium_df = pd.DataFrame({
-# "Product": df_docs[variables_list].sum().index,
-# "Share": (df_docs[variables_list].sum().values / df_docs["total_bottles"].sum() * 100).round(1),
-# "Category": [competitor_danone_labels_dict[col] for col in variables_list]})
-
 df_in = pd.melt(df_docs[df_docs.columns.intersection(list(competitor_danone_labels_dict.keys()) + ["COD_POSTAL"])],
                     id_vars=['COD_POSTAL'],
                     var_name='brand',
@@ -71,7 +60,7 @@ score_column = st.sidebar.selectbox(
             options=variables_list,
             index=0
         )
-# st.sidebar.header("Plotting Demo")
+
 # Add version info and last update time
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Version:** 1.0.0")
