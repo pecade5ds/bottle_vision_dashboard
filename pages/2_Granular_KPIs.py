@@ -66,7 +66,7 @@ df_in.loc[df_in.Category == "competitor", "value"] = df_in.loc[df_in.Category ==
 
 st.set_page_config(page_title = 'Main KPIs', page_icon = '📊', layout = 'wide')
 
-st.header("Granular KPIs")
+st.subheader("Granular KPIs")
 post_code_select = st.sidebar.selectbox('Select Post Code:', codigos_postales)
 score_column = st.sidebar.selectbox(
             'Select Score Column:',
