@@ -16,8 +16,6 @@ import datetime
 
 st.set_page_config(page_title = 'Main KPIs', page_icon = '📊', layout = 'wide')
 
-st.subheader("Main KPIs")
-# st.sidebar.header("Plotting Demo")
 # Add version info and last update time
 # st.sidebar.markdown("---")
 st.sidebar.markdown("**Version:** 1.0.0")
