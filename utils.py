@@ -127,7 +127,7 @@ def plot_interactive(gdf_data_input, score_column):
         geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
         coloraxis_colorbar=dict(
         title=dict(
-            text="Danone Share",
+            text="Share",
             side='top',  # puts title above the colorbar
             font=dict(size=12)  # optional: adjust font size
         ),
@@ -176,7 +176,7 @@ def plot_correlation(correlations_df):
 #         locations=gdf_post_code.index,  # or a column with unique identifiers
 #         color='total_danone',
 #         color_continuous_scale='Blues',
-#         labels={'total_danone': 'Danone Share'},
+#         labels={'total_danone': 'Share'},
 #         hover_data={'total_danone': True, 
 #                     'COD_POSTAL': True,
 #                     'Average Gross Income': True,
@@ -192,11 +192,10 @@ def plot_correlation(correlations_df):
 #         geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
 #         coloraxis_colorbar=dict(
 #         title=dict(
-#             text="Danone Share",
+#             text="Share",
 #             side='top',  # puts title above the colorbar
 #             font=dict(size=14)  # optional: adjust font size
 #         ),
-#         # title="Danone Share",
 #         orientation='h',  # horizontal orientation
 #         yanchor='bottom',
 #         y=1,  # position at bottom
@@ -229,7 +228,7 @@ def plot_danone_share_map(gdf_post_code):
                 'lon': gdf_post_code.lon.mean()},
         zoom=11,  # Adjust this value based on your data coverage
         opacity=0.8,  # Adjust transparency of the choropleth layer
-        labels={'total_danone': 'Danone Share'},
+        labels={'total_danone': 'Share'},
         hover_data={
             'total_danone': True,
             'COD_POSTAL': True,
@@ -246,7 +245,7 @@ def plot_danone_share_map(gdf_post_code):
         margin={"r":0,"t":0,"l":0,"b":0},  # Reduce margins to maximize map space
         coloraxis_colorbar=dict(
             title=dict(
-                text="Danone Share",
+                text="Share",
                 side='top',
                 font=dict(size=14)
             ),
