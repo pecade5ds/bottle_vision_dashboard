@@ -18,7 +18,6 @@ codigos_postales = df_docs['COD_POSTAL'].unique()
 
 brand_list = ['fontvella', 'viladrau', 'cabreiroa', 'vichy', 'lanjaron', 'bezoya', 'veri', 'aquabona', 'solan', 'evian', 'ribes', 'boix', 'aquarel', 'perrier', 'fonter', 'aquafina', 'fontagudes', 'aquadeus', 'casera', 'santaniol', 'cocacola']
 
-
 # Competitor info load
 with open('./Data/competitor_danone_labels_dict.json', 'r') as json_file:
     competitor_danone_labels_dict = json.load(json_file)
@@ -66,7 +65,6 @@ df_in.loc[df_in.Category == "competitor", "value"] = df_in.loc[df_in.Category ==
 
 st.set_page_config(page_title = 'Main KPIs', page_icon = '📊', layout = 'wide')
 
-st.subheader("Granular KPIs")
 post_code_select = st.sidebar.selectbox('Select Post Code:', codigos_postales)
 score_column = st.sidebar.selectbox(
             'Select Score Column:',
