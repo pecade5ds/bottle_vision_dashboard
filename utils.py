@@ -255,137 +255,69 @@ def plot_competitor_share(podium_df):
         st.plotly_chart(fig)
 
 
-# def divergence_plot_plotly(df, post_code):
-#     # Filter data
-#     df_filtered = df[df['COD_POSTAL'] == post_code]
-    
-#     # Create figure
-#     fig = go.Figure()
-    
-#     # Add Danone bars
-#     danone_data = df_filtered[df_filtered['Category'] == 'Danone']
-#     fig.add_trace(go.Bar(
-#         name='Danone',
-#         y=danone_data['brand'],
-#         x=danone_data['value'],
-#         orientation='h',
-#         marker_color='rgb(49, 130, 189)',  # Blue color
-#     ))
-    
-#     # Add Competitor bars
-#     competitor_data = df_filtered[df_filtered['Category'] == 'competitor']
-#     fig.add_trace(go.Bar(
-#         name='Competitor',
-#         y=competitor_data['brand'],
-#         x=competitor_data['value'],
-#         orientation='h',
-#         marker_color='rgb(204, 36, 41)',  # Red color
-#     ))
-    
-#     # Update layout
-#     fig.update_layout(
-#         xaxis=dict(
-#             title="Value",
-#             zeroline=True,
-#             zerolinecolor='black',
-#             zerolinewidth=1,
-#             showgrid=True,
-#             tickformat='.0f',  # Remove decimal places
-#             tickprefix='',  # Can add prefix if needed
-#             ticksuffix=''   # Can add suffix if needed
-#         ),
-#         yaxis=dict(
-#             title="Brand",
-#             autorange="reversed"  # Keep same order as original
-#         ),
-#         barmode='relative',
-#         bargap=0.2,
-#         height=600,
-#         width=800,
-#         showlegend=True,
-#         legend=dict(
-#             orientation="h",
-#             yanchor="bottom",
-#             y=1.02,
-#             xanchor="right",
-#             x=1
-#         )
-#     )
-    
-#     # Show absolute values on hover
-#     fig.update_traces(
-#         hovertemplate="<b>%{y}</b><br>" +
-#                       "Value: %{x:,.0f}<br>" +
-#                       "<extra></extra>"  # Remove secondary box
-#     )
-    
-#     # Return figure to be displayed in Streamlit
-#     return st.plotly_chart(fig, use_container_width=True)
-
 def divergence_plot_plotly(df, post_code):
-    """
-    Creates an interactive horizontal bar chart comparing values for 'Danone' and 'Competitor' brands
-    within a specified postal code using Plotly, tailored for Streamlit. Competitor values are displayed
-    in the opposite direction but shown as positive on the X-axis.
-
-    Args:
-        df (pd.DataFrame): DataFrame containing the data.
-        post_code (str): The postal code to filter data.
-
-    Returns:
-        None: Displays the chart in the Streamlit app.
-    """
-    # Filter data by postal code
+    # Filter data
     df_filtered = df[df['COD_POSTAL'] == post_code]
     
-    # Filter by categories
-    danone = df_filtered[df_filtered['Category'] == 'Danone']
-    competitor = df_filtered[df_filtered['Category'] == 'competitor']
-    
-    # Create the Plotly figure
+    # Create figure
     fig = go.Figure()
     
-    # Add bars for Danone
+    # Add Danone bars
+    danone_data = df_filtered[df_filtered['Category'] == 'Danone']
     fig.add_trace(go.Bar(
-        y=danone['brand'],
-        x=danone['value'],
-        orientation='h',
         name='Danone',
-        marker=dict(color='blue')
-    ))
-    
-    # Add bars for Competitor (negative internally, but absolute on the axis)
-    fig.add_trace(go.Bar(
-        y=competitor['brand'],
-        x=-competitor['value'],  # Negate values for opposite direction
+        y=danone_data['brand'],
+        x=danone_data['value'],
         orientation='h',
-        name='Competitor',
-        marker=dict(color='red')
+        marker_color='rgb(49, 130, 189)',  # Blue color
     ))
     
-    # Configure the layout
+    # Add Competitor bars
+    competitor_data = df_filtered[df_filtered['Category'] == 'competitor']
+    fig.add_trace(go.Bar(
+        name='Competitor',
+        y=competitor_data['brand'],
+        x=competitor_data['value'],
+        orientation='h',
+        marker_color='rgb(204, 36, 41)',  # Red color
+    ))
+    
+    # Update layout
     fig.update_layout(
-        title=f"Brand Comparison by Postal Code: {post_code}",
         xaxis=dict(
-            title='Value',
-            tickvals=list(range(0, int(max(df_filtered['value'].abs())) + 50, 50)),
-            ticktext=list(range(0, int(max(df_filtered['value'].abs())) + 50, 50))
+            title="Value",
+            zeroline=True,
+            zerolinecolor='black',
+            zerolinewidth=1,
+            showgrid=True,
+            tickformat='.0f',  # Remove decimal places
+            tickprefix='',  # Can add prefix if needed
+            ticksuffix=''   # Can add suffix if needed
         ),
-        yaxis=dict(title='Brand', automargin=True),
-        legend=dict(title="Category", orientation="h", x=0.5, xanchor="center"),
-        barmode='overlay',  # Change to 'relative' for stacked bars if needed
-        template='plotly_white',
-        height=600  # Adjust for better display in Streamlit
+        yaxis=dict(
+            title="Brand",
+            autorange="reversed"  # Keep same order as original
+        ),
+        barmode='relative',
+        bargap=0.2,
+        height=600,
+        width=800,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        )
     )
     
-    # Add a vertical line at x=0
-    fig.add_shape(
-        type="line",
-        x0=0, x1=0, y0=0, y1=1,
-        xref='x', yref='paper',
-        line=dict(color="black", dash="dash")
+    # Show absolute values on hover
+    fig.update_traces(
+        hovertemplate="<b>%{y}</b><br>" +
+                      "Value: %{x:,.0f}<br>" +
+                      "<extra></extra>"  # Remove secondary box
     )
     
-    # Display the chart in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
-
+    # Return figure to be displayed in Streamlit
+    return st.plotly_chart(fig, use_container_width=True)
