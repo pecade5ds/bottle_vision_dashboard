@@ -368,8 +368,8 @@ def divergence_plot_plotly(df, post_code):
         title=f"Brand Comparison by Postal Code: {post_code}",
         xaxis=dict(
             title='Value',
-            tickvals=[abs(x) for x in range(0, max(df_filtered['value'].abs()) + 50, 50)],
-            ticktext=[abs(x) for x in range(0, max(df_filtered['value'].abs()) + 50, 50)]
+            tickvals=list(range(0, int(max(df_filtered['value'].abs())) + 50, 50)),
+            ticktext=list(range(0, int(max(df_filtered['value'].abs())) + 50, 50))
         ),
         yaxis=dict(title='Brand', automargin=True),
         legend=dict(title="Category", orientation="h", x=0.5, xanchor="center"),
