@@ -322,10 +322,7 @@ def plot_competitor_share(podium_df):
 #     # Return figure to be displayed in Streamlit
 #     return st.plotly_chart(fig, use_container_width=True)
 
-import plotly.graph_objects as go
-import streamlit as st
-
-def divergence_plot_plotly_streamlit(df, post_code):
+def divergence_plot_plotly(df, post_code):
     """
     Creates an interactive horizontal bar chart comparing values for 'Danone' and 'Competitor' brands
     within a specified postal code using Plotly, tailored for Streamlit. Competitor values are displayed
