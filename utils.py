@@ -43,7 +43,7 @@ def preprocess_docs(docs, competitor_danone_labels_dict):
     return df_docs
 
 def plot_gauge_from_scalar(score, score_column):
-    colname = score_column  # Usamos el nombre de la columna como título
+    colname = score_column
 
     # Determinar el color del medidor
     if score < 0.5:
@@ -57,7 +57,7 @@ def plot_gauge_from_scalar(score, score_column):
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
-        title={'text': colname},  # Usamos el nombre de la columna como título
+        title={'text': colname}, 
         gauge={
             'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkblue"},
             'bar': {'color': gauge_color},
@@ -81,8 +81,8 @@ def plot_gauge_from_scalar(score, score_column):
 
     return fig
 
-def divergence_plot_matplotlib(df, codigo_postal):
-    df_filtered = df[df['COD_POSTAL'] == codigo_postal]
+def divergence_plot_matplotlib(df, post_code):
+    df_filtered = df[df['COD_POSTAL'] == post_code]
 
     danone = df_filtered[df_filtered['Category'] == 'Danone']
     competidor = df_filtered[df_filtered['Category'] == 'competitor']
@@ -92,21 +92,18 @@ def divergence_plot_matplotlib(df, codigo_postal):
     ax.barh(danone['brand'], danone['value'], color='blue', label='Danone')
     ax.barh(competidor['brand'], competidor['value'], color='red', label='Competitor')
 
-    # Ajuste del título y los ejes
-    ax.set_title(f"Brand by Post Code: {codigo_postal} (Competitor vs Danone)", fontsize=14)
+    ax.set_title(f"Brand by Post Code: {post_code} (Competitor vs Danone)", fontsize=14)
     ax.set_xlabel("Value", fontsize=12)
     ax.set_ylabel("Brand", fontsize=12)
-    ax.axvline(0, color='black', linewidth=0.8, linestyle='--')  # Línea vertical en 0
+    ax.axvline(0, color='black', linewidth=0.8, linestyle='--')
 
-    # Configuración de los valores del eje x para mostrar solo valores positivos
-    ax.set_xticks(ax.get_xticks())  # Obtener los valores del eje X
+    ax.set_xticks(ax.get_xticks()) 
     ax.set_xticklabels([abs(x) for x in ax.get_xticks()])  # Mostrar solo valores positivos
 
     ax.legend(loc='upper right', fontsize=12)
 
-    # Mostrar el gráfico en Streamlit
     plt.tight_layout()
-    st.pyplot(fig)  # Aquí usamos st.pyplot para mostrar el gráfico
+    st.pyplot(fig)  
 
 def plot_interactive(gdf_data_input, score_column):
     # Create the map with Plotly Express
@@ -147,12 +144,11 @@ def plot_interactive(gdf_data_input, score_column):
     st.plotly_chart(fig)
 
 def plot_correlation(correlations_df):
-    # Crear la figura usando Plotly
     fig = go.Figure(go.Bar(
         x=correlations_df["Correlation"], 
         y=correlations_df["Variable"], 
-        orientation='h',  # Gráfico de barras horizontales
-        marker=dict(color='skyblue')  # Color de las barras
+        orientation='h',  
+        marker=dict(color='skyblue')
     ))
 
     # Agregar título y etiquetas
@@ -160,7 +156,7 @@ def plot_correlation(correlations_df):
         title="Correlation Summary",
         xaxis_title="Correlation Gross Income by Brand",
         yaxis_title="Brands",
-        template="plotly_white",  # Estilo visual limpio
+        template="plotly_white", 
         xaxis=dict(showgrid=True, gridcolor='lightgray'),
         yaxis=dict(showgrid=False)
     )
@@ -168,47 +164,6 @@ def plot_correlation(correlations_df):
     # Mostrar el gráfico en Streamlit
     st.plotly_chart(fig, use_container_width=True)
     
-# def plot_danone_share_map(gdf_post_code):
-#     # Create the choropleth map
-#     fig_map_danone = px.choropleth(
-#         gdf_post_code,
-#         geojson=gdf_post_code.geometry,
-#         locations=gdf_post_code.index,  # or a column with unique identifiers
-#         color='total_danone',
-#         color_continuous_scale='Blues',
-#         labels={'total_danone': 'Share'},
-#         hover_data={'total_danone': True, 
-#                     'COD_POSTAL': True,
-#                     'Average Gross Income': True,
-#                     'danone_share': True},  
-#     )
-    
-#     # Update layout to remove axis and add a title
-#     fig_map_danone.update_geos(fitbounds="locations")
-#     fig_map_danone.update_layout(
-#         title="",
-#         width=2000,  # Adjust this value to make it wider
-#         height=600,  # Adjust this to maintain proportion
-#         geo=dict(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white"),
-#         coloraxis_colorbar=dict(
-#         title=dict(
-#             text="Share",
-#             side='top',  # puts title above the colorbar
-#             font=dict(size=14)  # optional: adjust font size
-#         ),
-#         orientation='h',  # horizontal orientation
-#         yanchor='bottom',
-#         y=1,  # position at bottom
-#         xanchor='center',
-#         x=0.5,  # center horizontally
-#         thickness=20,  # adjust thickness of the colorbar
-#         len=0.2,  # adjust length of the colorbar
-#     )
-# )
-
-#     # Display the map in Streamlit
-#     st.plotly_chart(fig_map_danone, use_container_width=True)
-
 def plot_danone_share_map(gdf_post_code):
 
     gdf_post_code = gdf_post_code.copy()
@@ -301,9 +256,9 @@ def plot_competitor_share(podium_df):
         st.plotly_chart(fig)
 
 
-def divergence_plot_plotly(df, codigo_postal):
+def divergence_plot_plotly(df, post_code):
     # Filter data
-    df_filtered = df[df['COD_POSTAL'] == codigo_postal]
+    df_filtered = df[df['COD_POSTAL'] == post_code]
     
     # Create figure
     fig = go.Figure()
@@ -330,11 +285,6 @@ def divergence_plot_plotly(df, codigo_postal):
     
     # Update layout
     fig.update_layout(
-        # title=dict(
-        #     text=f"Brand by Post Code: {codigo_postal} (Competitor vs Danone)",
-        #     x=0.1,  # Center title
-        #     font=dict(size=13)
-        # ),
         xaxis=dict(
             title="Value",
             zeroline=True,
