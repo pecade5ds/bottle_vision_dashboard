@@ -281,7 +281,7 @@ def plot_competitor_share(podium_df):
         fig.update_traces(textposition="outside")
         fig.update_layout(
             xaxis_title="Brands", 
-            yaxis_title="Values", 
+            yaxis_title="Share", 
             template="plotly_white",
             title_font=dict(size=14),  
             legend=dict(
