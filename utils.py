@@ -273,14 +273,14 @@ def plot_competitor_share(podium_df):
                 "Danone": "blue",
                 "competitor": "red"
             },
-            title="Top and Bottom Products (Danone vs Competitors)",
+            title="Top and Bottom Danone Brands vs Competitors",
             text="Share"
         )
         
         # Ajustar la posición del texto y el diseño
         fig.update_traces(textposition="outside")
         fig.update_layout(
-            xaxis_title="Products", 
+            xaxis_title="Brands", 
             yaxis_title="Values", 
             template="plotly_white",
             title_font=dict(size=14),  
